@@ -1,0 +1,9 @@
+.reg{
+    text-align: right;
+    text-emphasis-color: blue;
+    background-color: gold;
+}
+
+.bigborder{
+    border: 5px;
+}
