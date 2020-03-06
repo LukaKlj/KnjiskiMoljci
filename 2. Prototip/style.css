@@ -1,9 +1,28 @@
 .reg{
     text-align: right;
-    text-emphasis-color: blue;
+    color: blue;
     background-color: gold;
+    padding: 1%;
+    font-size: larger;
 }
 
-.bigborder{
-    border: 5px;
+.slika{
+    padding: 0%;
+}
+
+.bigpadding{
+    padding: 3%;
+}
+
+.back{
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    position: relative;
+    height: 750px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.userpass{
+    color: white;
 }
