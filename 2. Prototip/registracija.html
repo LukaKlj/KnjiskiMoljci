@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel='stylesheet' href='style.css'>
 </head>
-<body>
+<body class="texture">
     <div class="container back">
         <div class="row">
             <div class="col-sm-2 slika">
@@ -18,10 +18,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="offset-sm-4 col-sm-4 text-center">
-                <h1 class="userpass">Registruj se</h1>
+            <div class="col-sm-12 text-center">
+                <h1 class="userpass">Registracija</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-sm-2 col-sm-4 text-center">
                 <p class="userpass">
-                    Unesite podatke
+                    Unesite lične podatke
                 </p>
                 <form>
                     <table class='table userpass'>
@@ -63,6 +67,15 @@
 
                         <tr>
                             <td>
+                                Potvrda lozinke:
+                            </td>
+                            <td>
+                                <input type='password'>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
                                 e-mail:
                             </td>
                             <td>
@@ -72,7 +85,7 @@
 
                         <tr>
                             <td>
-                                Datum rodjenja:
+                                Datum rođenja:
                             </td>
                             <td>
                                 <input type='date'>
@@ -87,23 +100,91 @@
                                 <input type='radio' name='pol'>Muski <input type='radio' name='pol'>Zenski
                             </td>
                         </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="col-sm-4 text-center">
+                <form>
+                    <p class="userpass">
+                        Unesite podatke za plaćanje
+                    </p>
+                    <table class="table userpass">
+                        <tr>
+                            <td>
+                               Broj kreditne kartice:
+                            </td>
+                            <td>
+                                <input type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                Datum isteka kartice:
+                            </td>
+                        </tr>
 
                         <tr>
                             <td>
-                               Broj racuna:
+                                <div class="month">
+                                    <select name="Month">
+                                      <option value="januar">Januar</option>
+                                      <option value="februar">Februar</option>
+                                      <option value="mart">Mart</option>
+                                      <option value="april">April</option>
+                                      <option value="maj">Maj</option>
+                                      <option value="jun">Jun</option>
+                                      <option value="jul">Jul</option>
+                                      <option value="avgust">Avgust</option>
+                                      <option value="septembar">Septembar</option>
+                                      <option value="octobar">Octobar</option>
+                                      <option value="novembar">Novembar</option>
+                                      <option value="decembar">Decembar</option>
+                                    </select>
+                                </div>
                             </td>
                             <td>
-                                <input type='number'>
+                                <div class="year">
+                                    <select name="Year">
+                                      <option value="2020">2020</option>
+                                      <option value="2021">2021</option>
+                                      <option value="2022">2022</option>
+                                      <option value="2023">2023</option>
+                                      <option value="2024">2024</option>
+                                      <option value="2025">2025</option>
+                                      <option value="2026">2026</option>
+                                      <option value="2027">2027</option>
+                                      <option value="2028">2028</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
+
                         <tr>
-                            <td colspan="2" class='text-center'>
-                               <button class='btn-danger'>Dodaj</button>
+                            <td colspan="2">
+                                CVV kod:
                             </td>
-                            
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="cvv-input">
+                                    <input type="text" placeholder="CVV" maxlength="4">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cvv-details">
+                                    <p>3 ili 4 cifre, najčešće <br> se nalaze kod potpisa</p>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <button class='btn-danger'>Dodaj</button>
             </div>
         </div>
     </div>
