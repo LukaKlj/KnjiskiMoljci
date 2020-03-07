@@ -1,0 +1,65 @@
+.reg{
+    text-align: right;
+    color: blue;
+    background-color: gold;
+    padding: 1%;
+    font-size: larger;
+}
+
+.slika{
+    padding: 0%;
+}
+
+.bigpadding{
+    padding: 3%;
+}
+
+.back{
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    position: relative;
+    height: 750px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.userpass{
+    color: white;
+}
+
+.month select,
+.year select {
+  width               : 145px;
+  margin-bottom       : 20px;
+  padding-left        : 20px;
+  border              : 2px solid #e1e8ee;
+  border-radius       : 6px;
+}
+
+.cvv-input input {
+    width         : 145px;
+    float         : left;
+    padding-left  : 20px;
+    border        : 2px solid #e1e8ee;
+    border-radius : 6px;
+    background    : #fff;
+  }
+  
+  .cvv-details {
+    /*float         : right;*/
+    margin-bottom : 20px;
+    font-size     : 12px;
+    font-weight   : 300;
+    line-height   : 16px;
+  }
+  
+  .cvv-details p {
+    margin-top : 6px;
+    color:white;
+  }
+
+  .texture{
+      background-image: url(images/texture.jpg);
+  }
+
+
