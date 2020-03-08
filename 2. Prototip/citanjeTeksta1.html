@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Library</title>
+    <link rel="icon" href="images/icon.jpg"/>  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='style.css'>
+</head>
+<body class="texture">
+    <div class="container back">
+        <div class="row">
+            <div class="col-sm-2 slika">
+                <img src="images/logo.jpg" alt="LOGO" class="img-fluid" width="100%" height="100%">
+            </div>
+            <div class="col-sm-5 user">
+                Korisnik:
+                <a href="listaTekstova.html">korisnik1</a>
+                &nbsp;
+                Status: Čitalac
+            </div>
+            <div class="col-sm-5 reg">
+                <a href="index.html">Odjava</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 bigpadding2">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 text-center">
+                <a href="citalacPocetna.html">Pocetna strana</a>
+                <br>
+                <a href="objavaTeksta.html">Objavi tekst</a>
+                <br>
+                <a href="promenaPodataka.html">Promeni lične podatke</a>
+                <br>
+                <a href="promenaLozinke.html">Promeni lozinku</a>
+            </div>
+            <div class="col-sm-10">
+                <embed src="prviTekst.pdf" type="application/pdf" width="100%" height="600px">
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-sm-2 col-sm-10 text-center userpass">
+                Oceni delo:&nbsp;
+                <select name="ocena" id="ocena">
+                    <option value="neocenjeno">Neocenjeno</option>
+                    <option value="nula">0</option>
+                    <option value="jedan">1</option>
+                    <option value="dva">2</option>
+                    <option value="tri">3</option>
+                    <option value="četiri">4</option>
+                    <option value="pet">5</option>
+                </select>
+                <button class="btn-success">Potvrdi ocenu</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-sm-2 col-sm-10 userpass">
+                <h3 class="bigpadding3">Komentari:</h3>
+                <table class="table userpass">
+                    <thead>
+                        <th>Autor</th>
+                        <th>Komentar</th>
+                        <th>Vreme</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#">autor1</a></td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fuga alias, voluptatibus delectus inventore accusantium corporis voluptates quae dolorum, iusto molestias atque id, reprehenderit maxime maiores. Aliquid, repellendus praesentium accusamus labore amet enim pariatur laboriosam illum ullam obcaecati porro delectus est aliquam nesciunt sit voluptatibus?</td>
+                            <td>7. mart 2020. 11:56</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">autor1</a></td>
+                            <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore itaque rerum dignissimos?</td>
+                            <td>3. mart 2020. 17:22</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">autor1</a></td>
+                            <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque atque error perferendis enim mollitia impedit est eius quam temporibus debitis eligendi adipisci, quia voluptatem? Quam, nisi numquam repudiandae harum odio doloribus esse aspernatur fugiat quos eligendi deleniti deserunt omnis, ab perspiciatis voluptatum voluptates. Eligendi, est. Esse, quidem. Aspernatur enim exercitationem iste reiciendis! Labore maiores mollitia enim placeat eligendi neque ullam iusto? Aspernatur vitae iste dignissimos illo, sunt omnis.</td>
+                            <td>5. februar 2020. 00:07</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-sm-2 col-sm-10 userpass">
+                <h2>Ostavi komentar:</h2>
+                <textarea name="komentar" id="kom" cols="100" rows="3"></textarea>
+                <button class="btn-success">Komentariši</button>
+            </div>
+        </div>
+    </div>
+</body>
