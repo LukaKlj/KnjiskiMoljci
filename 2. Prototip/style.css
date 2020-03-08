@@ -6,12 +6,24 @@
     font-size: larger;
 }
 
+.user{
+    text-align: left;
+    color: blue;
+    background-color: gold;
+    padding: 1%;
+    font-size: larger;
+}
+
 .slika{
     padding: 0%;
 }
 
 .bigpadding{
     padding: 3%;
+}
+
+.bigpadding2{
+    padding: 1.4%;
 }
 
 .back{
@@ -28,7 +40,8 @@
 }
 
 .month select,
-.year select {
+.year select,
+#creditcards{
   width               : 145px;
   margin-bottom       : 20px;
   padding-left        : 20px;
@@ -46,7 +59,6 @@
   }
   
   .cvv-details {
-    /*float         : right;*/
     margin-bottom : 20px;
     font-size     : 12px;
     font-weight   : 300;
@@ -59,7 +71,17 @@
   }
 
   .texture{
-      background-image: url(images/texture.jpg);
+    background-image: url(images/texture.jpg);
   }
+
+  .biggerinput{
+    width: 100%;
+  }
+
+  .naslov{
+    font-size: small;
+    color: white;
+  }
+
 
 
