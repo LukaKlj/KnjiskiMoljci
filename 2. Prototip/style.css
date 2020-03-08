@@ -22,11 +22,21 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
+.writerBack{
+  background-image: url(images/writer.jpg);
+  background-size: cover;
+  position: relative;
+  height: 750px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .userpass{
     color: white;
 }
-
+.newText{
+  color:whitesmoke;
+  border-top-color: none;
+}
 .month select,
 .year select {
   width               : 145px;
