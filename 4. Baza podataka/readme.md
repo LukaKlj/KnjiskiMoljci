@@ -1,0 +1,1 @@
+Ovde se nalaze sve stvari u vezi sa bazom podataka
