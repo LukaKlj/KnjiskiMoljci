@@ -1,0 +1,1 @@
+Ovde se nalazi UML model nase aplikacije
