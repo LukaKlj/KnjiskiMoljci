@@ -1,0 +1,1 @@
+Ovde se nalazi sve u vezi sa realizacijom naseg projekta
