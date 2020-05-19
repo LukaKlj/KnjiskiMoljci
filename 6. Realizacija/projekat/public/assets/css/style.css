@@ -1,0 +1,130 @@
+nav.navbar{
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+}
+
+nav a.navbar-brand{
+  width: 10%;
+  height: auto;
+  padding: 0%;
+  margin: 0%;
+} 
+
+nav span.navbar-text{
+  padding: 0%;
+  margin: 0%;
+}
+
+a:hover{
+  color: rgb(189, 114, 17);
+}
+
+a:any-link{
+  color: bisque;
+}
+
+.reg{
+    text-align: right;
+    color: blue;
+    background-color: gold;
+    padding: 1%;
+    font-size: larger;
+}
+
+.user{
+    text-align: left;
+    color: blue;
+    background-color: gold;
+    padding: 1%;
+    font-size: larger;
+}
+
+.slika{
+    padding: 0%;
+}
+
+.bigpadding{
+    padding: 3%;
+}
+
+.bigpadding2{
+    padding: 1.4%;
+}
+
+.bigpadding3{
+  padding-top: 0.4%;
+}
+
+.back{
+    background-image: url(../images/background.jpg);
+    background-size: cover;
+    position: relative;
+    height: 750px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.writerBack{
+  background-image: url(../images/writer.jpg);
+  background-size: cover;
+  position: relative;
+  height: 750px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.userpass{
+    color: white;
+}
+.newText{
+  color:whitesmoke;
+  border-top-color: none;
+}
+.month select,
+.year select,
+#creditcards{
+  width               : 145px;
+  margin-bottom       : 20px;
+  padding-left        : 20px;
+  border              : 2px solid #e1e8ee;
+  border-radius       : 6px;
+}
+
+.cvv-input input {
+    width         : 145px;
+    float         : left;
+    padding-left  : 20px;
+    border        : 2px solid #e1e8ee;
+    border-radius : 6px;
+    background    : #fff;
+}
+
+.cvv-details {
+  margin-bottom : 20px;
+  font-size     : 12px;
+  font-weight   : 300;
+  line-height   : 16px;
+}
+
+.cvv-details p {
+  margin-top : 6px;
+  color:white;
+}
+
+.texture{
+  background-image: url(../images/texture.jpg);
+}
+
+.biggerinput{
+  width: 100%;
+}
+
+.naslov{
+  font-size: small;
+  color: white;
+}
+
+.smallerfont{
+  font-size: 0.8em;
+}
+
+
+
