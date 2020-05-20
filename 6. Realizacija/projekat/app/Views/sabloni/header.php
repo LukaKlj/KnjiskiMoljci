@@ -32,7 +32,9 @@
                 ?>
                 <?php
                 if($controller=="Recenzent")
-                echo '<li class="nav-item">
+                echo '<li class="nav-item ';
+                if($akcija=="recenziranje") echo 'active';
+                echo '">
                     <a class="nav-link" href="'.site_url($controller."/recenziranje").'">Recenziraj</a>
                 </li>';
                 ?>
