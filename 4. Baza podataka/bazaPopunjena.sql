@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: May 18, 2020 at 08:43 PM
+-- Generation Time: May 23, 2020 at 04:15 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.12
 
@@ -309,7 +309,6 @@ DROP TABLE IF EXISTS `recenzija`;
 CREATE TABLE IF NOT EXISTS `recenzija` (
   `IdTeksta` int(11) NOT NULL,
   `IdKor` int(11) NOT NULL,
-  `Zavrsena` tinyint(1) NOT NULL,
   PRIMARY KEY (`IdTeksta`),
   KEY `R_17` (`IdKor`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -333,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `tekst` (
   PRIMARY KEY (`IdTeksta`),
   KEY `R_5` (`IdKor`),
   KEY `R_6` (`IdObl`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tekst`
@@ -344,7 +343,8 @@ INSERT INTO `tekst` (`IdTeksta`, `Naziv`, `Odobren`, `Tekst`, `IdKor`, `IdObl`, 
 (2, 'Tekst 2', 0, '2.pdf', 24, 1, '2020-04-08', '19:28:19'),
 (3, 'Tekst 3', 1, '3.pdf', 20, 10, '2020-03-28', '20:20:20'),
 (4, 'Tekst 4', 0, '4.pdf', 25, 3, '2020-05-01', '19:58:54'),
-(5, 'Tekst 5', 1, '5.pdf', 1, 3, '2020-03-20', '19:58:54');
+(5, 'Tekst 5', 1, '5.pdf', 1, 3, '2020-03-20', '19:58:54'),
+(6, 'Tekst 6', 0, '6.pdf', 19, 11, '2020-05-11', '10:23:49');
 
 -- --------------------------------------------------------
 
