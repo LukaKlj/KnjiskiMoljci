@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: May 23, 2020 at 04:15 AM
+-- Generation Time: May 23, 2020 at 05:19 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.12
 
@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE IF NOT EXISTS `administrator` (
   `IdKor` int(11) NOT NULL,
   PRIMARY KEY (`IdKor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `administrator`
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `cita` (
   `IdKor` int(11) NOT NULL,
   PRIMARY KEY (`IdTeksta`,`IdKor`),
   KEY `R_15` (`IdKor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `cita`
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `citalac` (
   `CVV` char(4) NOT NULL,
   `IdKor` int(11) NOT NULL,
   PRIMARY KEY (`IdKor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `citalac`
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `komentar` (
   PRIMARY KEY (`IdKom`),
   KEY `R_9` (`IdKor`),
   KEY `R_10` (`IdTeksta`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `komentar`
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `korisnik` (
   `IdKor` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`IdKor`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `korisnik`
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `oblast` (
   `Naziv` varchar(20) NOT NULL,
   `BrojRecenzenata` int(11) NOT NULL,
   PRIMARY KEY (`IdObl`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `oblast`
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `ocena` (
   `IdTeksta` int(11) NOT NULL,
   PRIMARY KEY (`IdKor`,`IdTeksta`),
   KEY `R_8` (`IdTeksta`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `ocena`
@@ -233,10 +233,10 @@ CREATE TABLE IF NOT EXISTS `ocena` (
 
 INSERT INTO `ocena` (`Ocena`, `IdKor`, `IdTeksta`) VALUES
 (5, 2, 2),
-(4, 25, 3),
 (5, 5, 5),
 (2, 15, 1),
-(1, 19, 4);
+(1, 19, 4),
+(4, 25, 3);
 
 -- --------------------------------------------------------
 
@@ -249,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `pisac` (
   `IdKor` int(11) NOT NULL,
   `PocetakKarijere` date NOT NULL,
   PRIMARY KEY (`IdKor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `pisac`
@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `recenzent` (
   `IdObl` int(11) NOT NULL,
   PRIMARY KEY (`IdKor`),
   KEY `R_11` (`IdObl`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `recenzent`
@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `recenzija` (
   `IdKor` int(11) NOT NULL,
   PRIMARY KEY (`IdTeksta`),
   KEY `R_17` (`IdKor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -332,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `tekst` (
   PRIMARY KEY (`IdTeksta`),
   KEY `R_5` (`IdKor`),
   KEY `R_6` (`IdObl`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tekst`
@@ -363,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `zahtev` (
   PRIMARY KEY (`IdZah`),
   KEY `R_12` (`IdKor`),
   KEY `R_13` (`IdObl`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `zahtev`
