@@ -1,4 +1,4 @@
-<?php namespace App\Controllers;
+<?php
 
 use App\Models\KorisnikModel;
 use App\Models\CitalacModel;
@@ -9,8 +9,11 @@ class Citalac extends Korisnik{
         return "Citalac";
     }
 
-    protected function getStatus() {
-        return "Čitalac";
+    public function index() {
+        $data = [];
+        $data['akcija'] = 'prijava';
+        //$data['poruka']=$poruka;
+        $this->prikaz('prijavljivanje.php', $data);
     }
     
     public function promenaPodataka(){
