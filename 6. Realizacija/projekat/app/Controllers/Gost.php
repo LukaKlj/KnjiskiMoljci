@@ -8,6 +8,13 @@ use \App\Models\AdministatorModel;
 
 class Gost extends BaseController {
 
+    public function index() {
+        $data = [];
+        $data['akcija'] = 'prijava';
+        //$data['poruka']=$poruka;
+        $this->prikaz('prijavljivanje.php', $data);
+    }
+    
     protected function prikaz($page, $data) {
         $data['controller'] = 'Gost';
         echo view('sabloni/gostHeader.php', $data);

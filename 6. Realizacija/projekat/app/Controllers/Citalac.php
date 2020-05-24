@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Controllers;
 
 use App\Models\KorisnikModel;
 use App\Models\CitalacModel;
@@ -7,13 +7,6 @@ use CodeIgniter\I18n\Time;
 class Citalac extends Korisnik{
     protected function getController() {
         return "Citalac";
-    }
-
-    public function index() {
-        $data = [];
-        $data['akcija'] = 'prijava';
-        //$data['poruka']=$poruka;
-        $this->prikaz('prijavljivanje.php', $data);
     }
     
     public function promenaPodataka(){
@@ -72,5 +65,9 @@ class Citalac extends Korisnik{
         $this->session->setFlashdata("boja", "bela");
         $this->session->setFlashdata("poruka", "Uspešno promenjeni podaci");
         return redirect()->back();
+    }
+
+    protected function getStatus() {
+        return "Čitalac";
     }
 }
