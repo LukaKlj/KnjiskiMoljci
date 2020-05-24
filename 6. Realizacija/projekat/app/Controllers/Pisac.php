@@ -21,11 +21,14 @@ class Pisac extends Korisnik{
         $now=new Time('now', 'Europe/Belgrade');
         $razlika=$start->difference($now);
         if($razlika->getYears()<3){
-            return redirect()->back();
+            $this->session->setFlashdata("poruka", "Morate bar tri godine biti u statusu pisca");
+            return redirect()->to(site_url($this->getController()));
         }
         $oblastModel=new OblastModel();
         $oblasti=$oblastModel->findAll();
-        $this->prikaz("slanjeZahteva", ["akcija"=>"slanjeZahteva", "oblasti"=>$oblasti]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $boja=$this->session->getFlashdata("boja");
+        $this->prikaz("slanjeZahteva", ["akcija"=>"slanjeZahteva", "oblasti"=>$oblasti, "poruka"=>$poruka, "boja"=>$boja]);
     }
     
     public function noviZahtev(){
@@ -39,6 +42,12 @@ class Pisac extends Korisnik{
                 'IdObl'=>$this->request->getVar('oblast')
             ]);
         }
-        return redirect()->to(site_url($this->getController()));
+        else{
+            $this->session->setFlashdata("boja", "crvena");
+            $this->session->setFlashdata("poruka", "Već ste poslali zahtev za unapređenje u status recenzenta za ovu oblast");
+            return redirect()->back()->withInput();
+        }
+        $this->session->setFlashdata("poruka", "Poslat je zahtev");
+        return redirect()->back();
     }
 }

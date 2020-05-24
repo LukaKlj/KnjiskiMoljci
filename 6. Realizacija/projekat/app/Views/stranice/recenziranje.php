@@ -5,6 +5,13 @@
         </div>
     </div>
     <div class="row">
+        <div class="offset-sm-4 col-sm-4 text-center">
+            <span class="poruka" style="color:red">
+                <?php if(isset($poruka)) echo $poruka;?>
+            </span>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
             <div class="table-responsive smallerfont">
                 <table class="table table-sm userpass">
@@ -27,8 +34,8 @@
                                 ."'>{$korisnici[$tekst->IdTeksta]->username}</a></td>
                                 <td>{$oblasti[$tekst->IdTeksta]->Naziv}</td>
                                 <td>{$tekst->Datum} {$tekst->Vreme}</td>
-                                <td><button type='submit' class='btn-success' formaction='".site_url($controller."/odobri/$tekst->IdTeksta")."'>Odobri</button></td>
-                                <td><button type='submit' class='btn-danger' formaction='". site_url($controller."/odbaci/$tekst->IdTeksta")."'>Odbaci</button></td>
+                                <td><button type='submit' class='btn btn-sm btn-success' formaction='".site_url($controller."/odobri/$tekst->IdTeksta")."'>Odobri</button></td>
+                                <td><button type='submit' class='btn btn-sm btn-danger' formaction='". site_url($controller."/odbaci/$tekst->IdTeksta")."'>Odbaci</button></td>
                             </tr>";
                         }
                         ?>

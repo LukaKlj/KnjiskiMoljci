@@ -41,8 +41,8 @@ class BaseController extends Controller{
         
         //privremenoo!!!!Samo dok Filip ne zavrsi login da imam nekog korisnika u sesiji
         $korisnikModel=new KorisnikModel();
-        $korisnik=$korisnikModel->find(1);
+        $korisnik=$korisnikModel->find(25);
         $this->session->set("korisnik", $korisnik);
-        //privremeno0
+        //privremeno
     }
 }

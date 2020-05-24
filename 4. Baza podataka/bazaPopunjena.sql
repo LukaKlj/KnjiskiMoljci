@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: May 24, 2020 at 12:47 AM
+-- Generation Time: May 24, 2020 at 08:55 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.12
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `citalac` (
   `VrstaKartice` varchar(20) NOT NULL,
   `BrojKartice` char(19) NOT NULL,
   `MesecIsteka` char(2) NOT NULL,
-  `GodinaIsteka` char(2) NOT NULL,
+  `GodinaIsteka` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `CVV` char(4) NOT NULL,
   `IdKor` int(11) NOT NULL,
   PRIMARY KEY (`IdKor`)
@@ -88,9 +88,9 @@ CREATE TABLE IF NOT EXISTS `citalac` (
 --
 
 INSERT INTO `citalac` (`VrstaKartice`, `BrojKartice`, `MesecIsteka`, `GodinaIsteka`, `CVV`, `IdKor`) VALUES
-('Visa', '0489 8372 9102 9382', '10', '22', '983', 23),
-('Master', '2901 2903 4831 3842', '8', '23', '483', 24),
-('American', '2983 2881 3774 1238', '2', '21', '948', 25);
+('Visa', '4530 6542 1262 3248', '10', '2020', '983', 23),
+('Master', '5515 9779 1340 0830', '8', '2023', '483', 24),
+('American', '3715 9104 5047 734', '2', '2021', '948', 25);
 
 -- --------------------------------------------------------
 
@@ -346,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `tekst` (
   PRIMARY KEY (`IdTeksta`),
   KEY `R_5` (`IdKor`),
   KEY `R_6` (`IdObl`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tekst`
@@ -362,7 +362,9 @@ INSERT INTO `tekst` (`IdTeksta`, `Naziv`, `Odobren`, `Tekst`, `IdKor`, `IdObl`, 
 (7, 'Tekst 7', 1, '7.pdf', 5, 5, '2020-05-18', '19:58:54'),
 (8, 'Tekst 8', 1, '8.pdf', 21, 1, '2020-05-04', '22:00:00'),
 (9, 'Tekst 9', 0, '9.pdf', 7, 3, '2020-05-17', '21:08:12'),
-(10, 'Tekst 10', 0, '10.pdf', 1, 3, '2020-05-18', '10:23:49');
+(10, 'Tekst 10', 0, '10.pdf', 1, 3, '2020-05-18', '10:23:49'),
+(11, 'naslov', 0, '11.pdf', 1, 1, '2020-05-24', '07:31:30'),
+(12, 'naslov', 0, '12.pdf', 1, 1, '2020-05-24', '07:31:52');
 
 -- --------------------------------------------------------
 
@@ -380,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `zahtev` (
   PRIMARY KEY (`IdZah`),
   KEY `R_12` (`IdKor`),
   KEY `R_13` (`IdObl`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `zahtev`
@@ -390,7 +392,10 @@ INSERT INTO `zahtev` (`IdZah`, `Datum`, `Vreme`, `IdKor`, `IdObl`) VALUES
 (1, '2019-12-16', '10:23:49', 20, 1),
 (2, '2020-02-04', '10:23:49', 16, 8),
 (3, '2020-03-18', '10:23:49', 18, 10),
-(4, '2020-04-08', '19:58:54', 21, 1);
+(4, '2020-04-08', '19:58:54', 21, 1),
+(7, '2020-05-24', '07:48:19', 21, 5),
+(8, '2020-05-24', '07:58:03', 21, 10),
+(9, '2020-05-24', '08:03:59', 21, 8);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

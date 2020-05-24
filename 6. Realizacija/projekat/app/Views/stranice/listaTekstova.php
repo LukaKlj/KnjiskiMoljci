@@ -1,5 +1,12 @@
 <div class="container-fluid back">
     <div class="row">
+        <div class="offset-sm-4 col-sm-4 text-center">
+            <span class="poruka" style="color:red">
+                <?php if(isset($poruka)) echo $poruka;?>
+            </span>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12 text-center">
             <h3 class="newText" align="left">
                 <?php echo "{$korisnik->username}({$statusKorisnika})";?>

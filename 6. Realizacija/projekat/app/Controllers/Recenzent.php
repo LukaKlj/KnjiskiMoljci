@@ -25,7 +25,9 @@ class Recenzent extends Korisnik{
         $tekstovi=$tekstModel->sviZaRecenziranje($this->session->get("korisnik")->IdKor);
         $korisnici=$korisnikModel->korisniciZaTekstove($tekstovi);
         $oblasti=$oblastModel->oblastiZaTekstove($tekstovi);
-        $this->prikaz("recenziranje", ["akcija"=>"recenziranje", "tekstovi"=>$tekstovi, "korisnici"=>$korisnici, "oblasti"=>$oblasti]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $this->prikaz("recenziranje", ["akcija"=>"recenziranje", "tekstovi"=>$tekstovi, "korisnici"=>$korisnici, "oblasti"=>$oblasti, 
+            "poruka"=>$poruka]);
     }
     
     public function odobri($idteksta){

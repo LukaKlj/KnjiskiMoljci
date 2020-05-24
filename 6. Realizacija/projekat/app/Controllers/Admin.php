@@ -33,7 +33,8 @@ class Admin extends Korisnik{
         $pisci=$pisacModel->pisciZaZahteve($zahtevi);
         $recenzenti=$recenzentModel->where("IdObl", $idobl)->findAll();
         $prosecneOcene=$ocenaModel->prosecneOceneKorisnika($pisci, $recenzenti);
-        $this->prikaz("zahtevi2", ["akcija"=>"zahtevi", "oblast"=>$oblast, 'prosecneOcene'=>$prosecneOcene]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $this->prikaz("zahtevi2", ["akcija"=>"zahtevi", "oblast"=>$oblast, 'prosecneOcene'=>$prosecneOcene, 'poruka'=>$poruka]);
     }
     
     public function vrati($idobl, $idkor){
@@ -77,6 +78,10 @@ class Admin extends Korisnik{
                 "BrojRecenzenata"=>$oblast->BrojRecenzenata+1
             ]);
             $zahtevModel->where("IdObl", $idobl)->where("IdKor", $idkor)->delete();
+        }
+        else{
+            $this->session->setFlashdata("poruka", "Dostignut je maksimalan broj recenzenata za ovu oblast");
+            return redirect()->back();
         }
         $db->transComplete();
         return redirect()->back();

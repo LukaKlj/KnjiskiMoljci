@@ -5,6 +5,13 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-12 text-center">
+            <span style="color:red" class="font-italic smallerfont poruka">
+                <?php if(isset($poruka)) echo $poruka;?>
+            </span>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
             <h3 class="userpass">Oblast: <?php echo $oblast->Naziv;?></h3>
             <div class="table-responsive smallerfont">
@@ -34,12 +41,12 @@
                                 if($recenzent){
                                     echo "<td>&nbsp;</td>
                                         <td>&nbsp;</td>
-                                        <td><button class='btn-warning' formaction='".site_url($controller."/vrati/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Vrati</button></td>
+                                        <td><button class='btn btn-sm btn-warning' formaction='".site_url($controller."/vrati/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Vrati</button></td>
                                     </tr>";
                                 }
                                 else{
-                                    echo "<td><button class='btn-success' formaction='".site_url($controller."/odobri/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Odobri</button></td>
-                                        <td><button class='btn-danger' formaction='".site_url($controller."/odbaci/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Odbaci</button></td>
+                                    echo "<td><button class='btn btn-sm btn-success' formaction='".site_url($controller."/odobri/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Odobri</button></td>
+                                        <td><button class='btn btn-sm btn-danger' formaction='".site_url($controller."/odbaci/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Odbaci</button></td>
                                         <td>&nbsp;</td>
                                     </tr>";
                                 }

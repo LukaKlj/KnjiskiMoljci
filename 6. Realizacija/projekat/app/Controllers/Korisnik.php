@@ -17,25 +17,34 @@ abstract class Korisnik extends BaseController{
     }
     
     public function index(){
-        $this->prikaz("pocetna", ["akcija"=>"pocetna"]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $this->prikaz("pocetna", ["akcija"=>"pocetna", "poruka"=>$poruka]);
     }
     
     public function objavaTeksta($poruka=null){
         $oblastModel=new OblastModel();
         $oblasti=$oblastModel->findAll();
-        $this->prikaz("objavaTeksta", ["akcija"=>"objava", "oblasti"=>$oblasti, "poruka"=>$poruka]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $boja=$this->session->getFlashdata("boja");
+        $this->prikaz("objavaTeksta", ["akcija"=>"objava", "oblasti"=>$oblasti, "poruka"=>$poruka, "boja"=>$boja]);
     }
     
     public function noviTekst(){
         if(!$this->validate(["naslov"=>"required"])){
-            return $this->objavaTeksta("Izaberite naslov");
+            $this->session->setFlashdata("boja", "crvena");
+            $this->session->setFlashdata("poruka", "Izaberite naslov");
+            return redirect()->back()->withInput();
         }
         $file = $this->request->getFile('myfile');
         if($file==null || !$file->isValid()){
-            return $this->objavaTeksta("Priložite tekst");
+            $this->session->setFlashdata("boja", "crvena");
+            $this->session->setFlashdata("poruka", "Priložite tekst");
+            return redirect()->back()->withInput();
         }
         if($file->getExtension()!="pdf"){
-            return $this->objavaTeksta("Priložite tekst u .pdf formatu");
+            $this->session->setFlashdata("boja", "crvena");
+            $this->session->setFlashdata("poruka", "Priložite tekst u .pdf formatu");
+            return redirect()->back()->withInput();
         }
         $tekstModel=new TekstModel();
         $link=($tekstModel->najveciID()+1).".pdf";
@@ -50,15 +59,66 @@ abstract class Korisnik extends BaseController{
             'Datum'=>$time->toDateString(),
             'Vreme'=>$time->toTimeString()
         ]);
-        return redirect()->to(site_url($this->getController()));
+        $this->session->setFlashdata("poruka", "Uspešno objavljen tekst");
+        return redirect()->back();
     }
     
     public function promenaPodataka(){
-        $this->prikaz("promenaPodataka", ["akcija"=>"podaci"]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $boja=$this->session->getFlashdata("boja");
+        $this->prikaz("promenaPodatakaOstali", ["akcija"=>"podaci", "poruka"=>$poruka, "boja"=>$boja]);
+    }
+    
+    public function noviPodaci() {
+        if(!$this->validate(['ime'=>'required', 'prezime'=>'required', 'email'=>'required'])){
+            $this->session->setFlashdata("poruka", "Sva polja moraju biti popunjena");
+            return redirect()->back()->withInput();
+        }
+        if(!$this->validate(['email'=>'valid_email'])){
+            $this->session->setFlashdata("poruka", "Loš format e-mail adrese");
+            return redirect()->back()->withInput();
+        }
+        $korisnikModel=new KorisnikModel();
+        $korisnikModel->update($this->session->get("korisnik")->IdKor,[
+            'Ime'=>$this->request->getVar('ime'),
+            'Prezime'=>$this->request->getVar('prezime'),
+            'email'=>$this->request->getVar('email')
+        ]);
+        $this->session->setFlashdata("boja", "bela");
+        $this->session->setFlashdata("poruka", "Uspešno promenjeni podaci");
+        return redirect()->back();
     }
     
     public function promenaLozinke(){
-        $this->prikaz("promenaLozinke", ["akcija"=>"lozinka"]);
+        $poruka=$this->session->getFlashdata("poruka");
+        $boja=$this->session->getFlashdata("boja");
+        $this->prikaz("promenaLozinke", ["akcija"=>"lozinka", "poruka"=>$poruka, "boja"=>$boja]);
+    }
+    
+    public function novaLozinka(){
+        $korisnikModel=new KorisnikModel();
+        if(!$this->validate(['stara'=>'required', 'staraPonovo'=>'required', 'nova'=>'required'])){
+            $this->session->setFlashdata("poruka", "Sva polja moraju biti popunjena");
+            return redirect()->back();
+        }
+        if($this->request->getVar('stara')!=$this->session->get('korisnik')->password){
+            $this->session->setFlashdata("poruka", "Stara lozinka nije dobra");
+            return redirect()->back();
+        }
+        if($this->request->getVar('stara')!=$this->request->getVar('staraPonovo')){
+            $this->session->setFlashdata("poruka", "Potvrda stare lozinke ne odgovara staroj lozinci");
+            return redirect()->back();
+        }
+        if(!$this->validate(['nova'=>'min_length[8]'])){
+            $this->session->setFlashdata("poruka", "Nova lozinka se mora sastojati od bar 8 karaktera");
+            return redirect()->back();
+        }
+        $korisnikModel->update($this->session->get('korisnik')->IdKor, [
+            'password'=>$this->request->getVar('nova')
+        ]);
+        $this->session->setFlashdata("boja", "bela");
+        $this->session->setFlashdata("poruka", "Uspešno promenjena lozinka");
+        return redirect()->back();
     }
     
     public function pregledTekstova($idkor){
@@ -100,11 +160,14 @@ abstract class Korisnik extends BaseController{
             else{
                 $ukupnaProsecnaOcena=$ukupniZbir/$ukupniBrojac;
             }
+            $poruka=$this->session->getFlashdata("poruka");
             $this->prikaz("listaTekstova", ['korisnik'=>$korisnik, 'statusKorisnika'=>$statusKorisnika, 'tekstovi'=>$tekstovi, 'oblasti'=>$oblasti,
-                'ukupnaProsecnaOcena'=>$ukupnaProsecnaOcena, 'prosecneOcene'=>$prosecneOcene]);
+                'ukupnaProsecnaOcena'=>$ukupnaProsecnaOcena, 'prosecneOcene'=>$prosecneOcene, "poruka"=>$poruka]);
         }
         else{
-            return redirect()->back();
+            $this->session->setFlashdata("boja", "crvena");
+            $this->session->setFlashdata("poruka", "Taj korisnik je u statusu čitaoca");
+            return redirect()->back()->withInput();
         }
     }
     

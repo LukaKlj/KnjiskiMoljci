@@ -1,7 +1,9 @@
 <div class="container-fluid back">
     <div class="row">
         <div class="col-sm-3 text-center userpass">
-            <span id="poruka"></span>
+            <span style="color:red" class="font-italic smallerfont poruka">
+                <?php if(isset($poruka)) echo $poruka;?>
+            </span>
         </div>
         <div class="col-sm-3">
             <form class="navbar-form">

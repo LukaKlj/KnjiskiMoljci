@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="offset-sm-4 col-sm-4 text-center">
-            <span style="color:red">
+            <span class="poruka" style="<?php if($boja=="crvena") echo "color:red"; else echo "color:white";?>">
                 <?php if(isset($poruka)) echo $poruka;?>
             </span>
         </div>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="text-center">
-                            <button type="submit" class="btn-success">Objavi</button>
+                            <button type="submit" class="btn btn-sm btn-success">Objavi</button>
                         </td>
                     </tr>
                 </table>
