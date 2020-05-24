@@ -8,6 +8,6 @@ class RecenzijaModel extends Model{
 
     protected $returnType     = 'object';
 
-    protected $allowedFields = [];
+    protected $allowedFields = ['IdTeksta', 'IdKor'];
 }
 

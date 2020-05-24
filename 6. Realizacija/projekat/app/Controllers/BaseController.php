@@ -1,5 +1,6 @@
 <?php namespace App\Controllers;
 
+use App\Models\KorisnikModel;
 /**
  * Class BaseController
  *
@@ -23,7 +24,7 @@ class BaseController extends Controller{
      *
      * @var array
      */
-    protected $helpers = ['url', 'form'];
+    protected $helpers = ['url', 'form', 'filesystem'];
 
     /**
      * Constructor.
@@ -37,5 +38,11 @@ class BaseController extends Controller{
         //--------------------------------------------------------------------
         // E.g.:
         $this->session = \Config\Services::session();
+        
+        //privremenoo!!!!Samo dok Filip ne zavrsi login da imam nekog korisnika u sesiji
+        $korisnikModel=new KorisnikModel();
+        $korisnik=$korisnikModel->find(1);
+        $this->session->set("korisnik", $korisnik);
+        //privremeno0
     }
 }

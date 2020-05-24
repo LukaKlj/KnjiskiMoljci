@@ -16,9 +16,15 @@ class TekstModel extends Model{
         return $maxId;
     }
     
-    public function sviZaRecenziranje(){
-        $idkor=$this->session->get("korisnik")->IdKor;
-        $oblastModel=new OblastModel();
+    public function sviZaRecenziranje($idkor){
+        $recenzentModel=new RecenzentModel();
+        $idobl=$recenzentModel->find($idkor)->IdObl;
+        $tekstovi=$this->where("IdObl", $idobl)->where("Odobren", 0)->where("IdKor !=", $idkor)->findAll();
+        return $tekstovi;
+    }
+    
+    public function tekstoviKorisnika($idkor){
+        return $this->where("IdKor", $idkor)->findAll();
     }
 }
 

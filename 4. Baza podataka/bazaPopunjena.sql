@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: May 23, 2020 at 05:19 AM
+-- Generation Time: May 24, 2020 at 12:47 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.12
 
@@ -199,18 +199,18 @@ CREATE TABLE IF NOT EXISTS `oblast` (
 --
 
 INSERT INTO `oblast` (`IdObl`, `Naziv`, `BrojRecenzenata`) VALUES
-(1, 'Beletristika', 0),
-(2, 'Avantura', 0),
-(3, 'Naucna fantastika', 0),
-(4, 'Romantika', 0),
-(5, 'Klasici', 0),
-(6, 'Psihologija', 0),
-(7, 'Krimi', 0),
-(8, 'Prirodne nauke', 0),
-(9, 'Geografija', 0),
-(10, 'Istorija', 0),
-(11, 'Medicina', 0),
-(12, 'Poezija', 0);
+(1, 'Beletristika', 1),
+(2, 'Avantura', 1),
+(3, 'Naucna fantastika', 1),
+(4, 'Romantika', 1),
+(5, 'Klasici', 1),
+(6, 'Psihologija', 1),
+(7, 'Krimi', 1),
+(8, 'Prirodne nauke', 1),
+(9, 'Geografija', 1),
+(10, 'Istorija', 1),
+(11, 'Medicina', 1),
+(12, 'Poezija', 1);
 
 -- --------------------------------------------------------
 
@@ -232,10 +232,13 @@ CREATE TABLE IF NOT EXISTS `ocena` (
 --
 
 INSERT INTO `ocena` (`Ocena`, `IdKor`, `IdTeksta`) VALUES
-(5, 2, 2),
+(3, 3, 8),
+(3, 4, 5),
 (5, 5, 5),
+(4, 14, 1),
 (2, 15, 1),
-(1, 19, 4),
+(2, 19, 3),
+(4, 24, 8),
 (4, 25, 3);
 
 -- --------------------------------------------------------
@@ -258,12 +261,12 @@ CREATE TABLE IF NOT EXISTS `pisac` (
 INSERT INTO `pisac` (`IdKor`, `PocetakKarijere`) VALUES
 (14, '2020-01-03'),
 (15, '2020-03-03'),
-(16, '2019-12-12'),
+(16, '2016-12-12'),
 (17, '2018-11-11'),
-(18, '2017-09-18'),
+(18, '2016-09-18'),
 (19, '2016-01-19'),
-(20, '2019-12-12'),
-(21, '2019-10-29'),
+(20, '2016-12-12'),
+(21, '2015-10-29'),
 (22, '2015-12-17');
 
 -- --------------------------------------------------------
@@ -289,14 +292,14 @@ INSERT INTO `recenzent` (`IdKor`, `BrojZavrsenihRecenzija`, `IdObl`) VALUES
 (2, 0, 7),
 (3, 0, 9),
 (4, 0, 8),
-(5, 0, 1),
+(5, 1, 1),
 (6, 0, 2),
-(7, 0, 3),
+(7, 1, 3),
 (8, 0, 4),
-(9, 0, 5),
+(9, 1, 5),
 (10, 0, 6),
-(11, 0, 10),
-(12, 0, 11),
+(11, 1, 10),
+(12, 1, 11),
 (13, 0, 12);
 
 -- --------------------------------------------------------
@@ -312,6 +315,17 @@ CREATE TABLE IF NOT EXISTS `recenzija` (
   PRIMARY KEY (`IdTeksta`),
   KEY `R_17` (`IdKor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `recenzija`
+--
+
+INSERT INTO `recenzija` (`IdTeksta`, `IdKor`) VALUES
+(8, 5),
+(5, 7),
+(7, 9),
+(3, 11),
+(1, 12);
 
 -- --------------------------------------------------------
 
@@ -332,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `tekst` (
   PRIMARY KEY (`IdTeksta`),
   KEY `R_5` (`IdKor`),
   KEY `R_6` (`IdObl`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tekst`
@@ -344,7 +358,11 @@ INSERT INTO `tekst` (`IdTeksta`, `Naziv`, `Odobren`, `Tekst`, `IdKor`, `IdObl`, 
 (3, 'Tekst 3', 1, '3.pdf', 20, 10, '2020-03-28', '20:20:20'),
 (4, 'Tekst 4', 0, '4.pdf', 25, 3, '2020-05-01', '19:58:54'),
 (5, 'Tekst 5', 1, '5.pdf', 1, 3, '2020-03-20', '19:58:54'),
-(6, 'Tekst 6', 0, '6.pdf', 19, 11, '2020-05-11', '10:23:49');
+(6, 'Tekst 6', 0, '6.pdf', 19, 11, '2020-05-11', '10:23:49'),
+(7, 'Tekst 7', 1, '7.pdf', 5, 5, '2020-05-18', '19:58:54'),
+(8, 'Tekst 8', 1, '8.pdf', 21, 1, '2020-05-04', '22:00:00'),
+(9, 'Tekst 9', 0, '9.pdf', 7, 3, '2020-05-17', '21:08:12'),
+(10, 'Tekst 10', 0, '10.pdf', 1, 3, '2020-05-18', '10:23:49');
 
 -- --------------------------------------------------------
 
@@ -355,7 +373,6 @@ INSERT INTO `tekst` (`IdTeksta`, `Naziv`, `Odobren`, `Tekst`, `IdKor`, `IdObl`, 
 DROP TABLE IF EXISTS `zahtev`;
 CREATE TABLE IF NOT EXISTS `zahtev` (
   `IdZah` int(11) NOT NULL AUTO_INCREMENT,
-  `Odobren` tinyint(1) NOT NULL,
   `Datum` date NOT NULL,
   `Vreme` time NOT NULL,
   `IdKor` int(11) NOT NULL,
@@ -363,16 +380,17 @@ CREATE TABLE IF NOT EXISTS `zahtev` (
   PRIMARY KEY (`IdZah`),
   KEY `R_12` (`IdKor`),
   KEY `R_13` (`IdObl`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `zahtev`
 --
 
-INSERT INTO `zahtev` (`IdZah`, `Odobren`, `Datum`, `Vreme`, `IdKor`, `IdObl`) VALUES
-(1, 0, '2019-12-16', '10:23:49', 20, 1),
-(2, 0, '2020-02-04', '10:23:49', 16, 8),
-(3, 0, '2020-03-18', '10:23:49', 18, 10);
+INSERT INTO `zahtev` (`IdZah`, `Datum`, `Vreme`, `IdKor`, `IdObl`) VALUES
+(1, '2019-12-16', '10:23:49', 20, 1),
+(2, '2020-02-04', '10:23:49', 16, 8),
+(3, '2020-03-18', '10:23:49', 18, 10),
+(4, '2020-04-08', '19:58:54', 21, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

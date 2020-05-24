@@ -2,12 +2,15 @@
 
 use App\Models\OblastModel;
 use App\Models\TekstModel;
+use App\Models\KorisnikModel;
+use App\Models\OcenaModel;
 use CodeIgniter\I18n\Time;
 
 abstract class Korisnik extends BaseController{
     protected function prikaz($name, $data){
         $data["status"]=$this->getStatus();
         $data["controller"]=$this->getController();
+        $data["korisnik"]=$this->session->get("korisnik");
         echo view('sabloni/header', $data);
         echo view("stranice/$name", $data);
         echo view('sabloni/footer');
@@ -36,14 +39,13 @@ abstract class Korisnik extends BaseController{
         }
         $tekstModel=new TekstModel();
         $link=($tekstModel->najveciID()+1).".pdf";
-        $file->store('../../texts/', $link);
+        $file->store('../texts/', $link);
         $time=new Time('now', 'Europe/Belgrade');
         $tekstModel->save([
             'Naziv'=>$this->request->getVar('naslov'),
             'Odobren'=>0,
             'Tekst'=>$link,
-            //posle dodati
-            //'IdKor'=>$this->session->get('korisnik')->IdKor,
+            'IdKor'=>$this->session->get('korisnik')->IdKor,
             'IdObl'=>$this->request->getVar('oblast'),
             'Datum'=>$time->toDateString(),
             'Vreme'=>$time->toTimeString()
@@ -57,6 +59,53 @@ abstract class Korisnik extends BaseController{
     
     public function promenaLozinke(){
         $this->prikaz("promenaLozinke", ["akcija"=>"lozinka"]);
+    }
+    
+    public function pregledTekstova($idkor){
+        $korisnikModel=new KorisnikModel();
+        $tekstModel=new TekstModel();
+        $ocenaModel=new OcenaModel();
+        $oblastModel=new OblastModel();
+        $statusKorisnika=$korisnikModel->dohvatiStatus($idkor);
+        if($statusKorisnika!='Citalac'){
+            $korisnik=$korisnikModel->find($idkor);
+            $tekstovi=$tekstModel->tekstoviKorisnika($korisnik->IdKor);
+            $prosecneOcene=[];
+            $oblasti=[];
+            $ukupniZbir=0;
+            $ukupniBrojac=0;
+            foreach($tekstovi as $tekst){
+                $zbir=0;
+                $brojac=0;
+                if($tekst->Odobren){
+                    $ocene=$ocenaModel->where("IdTeksta", $tekst->IdTeksta)->findAll();
+                    foreach($ocene as $ocena){
+                        $ukupniZbir+=$ocena->Ocena;
+                        $ukupniBrojac++;
+                        $zbir+=$ocena->Ocena;
+                        $brojac++;
+                    }
+                }
+                if($brojac==0){
+                    $prosecneOcene[$tekst->IdTeksta]="Nema ocena";
+                }
+                else{
+                    $prosecneOcene[$tekst->IdTeksta]=$zbir/$brojac;
+                }
+                $oblasti[$tekst->IdTeksta]=$oblastModel->find($tekst->IdObl);
+            }
+            if($ukupniBrojac==0){
+                $ukupnaProsecnaOcena="Nema ocena";
+            }
+            else{
+                $ukupnaProsecnaOcena=$ukupniZbir/$ukupniBrojac;
+            }
+            $this->prikaz("listaTekstova", ['korisnik'=>$korisnik, 'statusKorisnika'=>$statusKorisnika, 'tekstovi'=>$tekstovi, 'oblasti'=>$oblasti,
+                'ukupnaProsecnaOcena'=>$ukupnaProsecnaOcena, 'prosecneOcene'=>$prosecneOcene]);
+        }
+        else{
+            return redirect()->back();
+        }
     }
     
     abstract protected function getStatus();

@@ -9,5 +9,13 @@ class OblastModel extends Model{
     protected $returnType     = 'object';
 
     protected $allowedFields = ['BrojRecenzenata'];
+    
+    public function oblastiZaTekstove($tekstovi){
+        $oblasti=[];
+        foreach($tekstovi as $tekst){
+            $oblasti[$tekst->IdTeksta]=$this->find($tekst->IdObl);
+        }
+        return $oblasti;
+    }
 }
 

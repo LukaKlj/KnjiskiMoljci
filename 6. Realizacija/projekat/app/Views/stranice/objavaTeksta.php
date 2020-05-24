@@ -20,7 +20,7 @@
                     <tr>
                         <td>Naslov</td>
                         <td>
-                            <input type='text' name="naslov">
+                            <input type='text' name="naslov" value="<?php echo set_value("naslov")?>">
                         </td>
                     </tr>
                     <tr>
@@ -29,7 +29,7 @@
                             <select name="oblast">
                                 <?php
                                 foreach($oblasti as $oblast){
-                                    echo "<option value='$oblast->IdObl'>$oblast->Naziv</option>";
+                                    echo "<option value='$oblast->IdObl'".set_select("oblast", "{$oblast->IdObl}").">$oblast->Naziv</option>";
                                 }
                                 ?>
                             </select>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="text-center">
-                            <input type="submit" class="btn-success" value="Objavi"/>
+                            <button type="submit" class="btn-success">Objavi</button>
                         </td>
                     </tr>
                 </table>

@@ -1,6 +1,9 @@
 <div class="container-fluid back">
     <div class="row">
-        <div class="offset-sm-3 col-sm-3">
+        <div class="col-sm-3 text-center userpass">
+            <span id="poruka"></span>
+        </div>
+        <div class="col-sm-3">
             <form class="navbar-form">
                 <div class="input-group">
                     <input class="form-control input-sm" type="text" placeholder="Pretraga...">
