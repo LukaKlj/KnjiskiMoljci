@@ -8,7 +8,7 @@ class CitalacModel extends Model{
 
     protected $returnType     = 'object';
 
-    protected $allowedFields = ['IdKor', 'VrstaKartice', 'BrojKartice', 'MesecIsteka', 'Godinaisteka', 'CVV'];
+    protected $allowedFields = ['IdKor', 'VrstaKartice', 'BrojKartice', 'MesecIsteka', 'GodinaIsteka', 'CVV'];
 }
 
 

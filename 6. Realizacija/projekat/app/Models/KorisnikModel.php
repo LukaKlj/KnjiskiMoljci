@@ -37,7 +37,7 @@ class KorisnikModel extends Model{
         }
         $admin=$adminModel->find($idkor);
         if($admin!=null){
-            return 'Administrator';
+            return 'Admin';
         }
         return null;
     }

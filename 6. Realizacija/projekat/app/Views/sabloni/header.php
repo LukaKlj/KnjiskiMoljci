@@ -75,7 +75,7 @@
         </span>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="index.html" id="logout">Odjava</a>
+                <a class="nav-link" href="<?php echo site_url($controller."/odjava")?>" id="logout">Odjava</a>
             </li>
         </ul>
     </nav>

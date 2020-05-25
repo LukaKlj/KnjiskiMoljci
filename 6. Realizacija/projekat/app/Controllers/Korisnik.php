@@ -171,6 +171,11 @@ abstract class Korisnik extends BaseController{
         }
     }
     
+    public function odjava(){
+        $this->session->destroy();
+        return redirect()->to('/');
+    }
+    
     abstract protected function getStatus();
     abstract protected function getController();
 }

@@ -56,6 +56,7 @@ class Citalac extends Korisnik{
             'email'=>$this->request->getVar('email')
         ]);
         $citalacModel->update($this->session->get("korisnik")->IdKor,[
+            'VrstaKartice'=>$this->request->getVar('CreditCards'),
             'BrojKartice'=>$this->request->getVar('broj'),
             'MesecIsteka'=>$this->request->getVar('mesec'),
             'GodinaIsteka'=>$this->request->getVar('godina'),

@@ -32,11 +32,11 @@
                             <td>Izaberi karticu:</td>
                             <td>
                                 <select name="CreditCards" id="creditcards">
-                                    <option value="visa" <?php if($citalac->VrstaKartice=='Visa')echo set_select("CreditCards", "visa", TRUE);
+                                    <option value="visa" <?php if($citalac->VrstaKartice=='visa')echo set_select("CreditCards", "visa", TRUE);
                                             else echo set_select("CreditCards", "visa");?>>Visa</option>
-                                    <option value="mastercard" <?php if($citalac->VrstaKartice=='Master')echo set_select("CreditCards", "mastercard", TRUE);
+                                    <option value="mastercard" <?php if($citalac->VrstaKartice=='mastercard')echo set_select("CreditCards", "mastercard", TRUE);
                                             else echo set_select("CreditCards", "mastercard");?>>MasterCard</option>
-                                    <option value="amex" <?php if($citalac->VrstaKartice=='American')echo set_select("CreditCards", "amex", TRUE);
+                                    <option value="amex" <?php if($citalac->VrstaKartice=='amex')echo set_select("CreditCards", "amex", TRUE);
                                             else echo set_select("CreditCards", "amex");?>>American Express</option>
                                 </select>
                             </td>
