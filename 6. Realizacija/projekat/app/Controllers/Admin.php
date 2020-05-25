@@ -4,6 +4,7 @@ use App\Models\OblastModel;
 use App\Models\ZahtevModel;
 use App\Models\PisacModel;
 use App\Models\RecenzentModel;
+use App\Models\RecenzijaModel;
 use App\Models\OcenaModel;
 use CodeIgniter\I18n\Time;
 
@@ -42,12 +43,14 @@ class Admin extends Korisnik{
         $recenzentModel=new RecenzentModel();
         $pisacModel=new PisacModel();
         $oblastModel=new OblastModel();
+        $recenzijaModel=new RecenzijaModel();
         $time=new Time('now', 'Europe/Belgrade');
         $db->transStart();
         $pisacModel->insert([
             "IdKor"=>$idkor,
             "PocetakKarijere"=>$time->toDateString()
         ]);
+        $recenzijaModel->where('IdKor', $idkor)->delete();
         $recenzentModel->delete($idkor);
         $oblast=$oblastModel->find($idobl);
         $oblastModel->update($idobl, [
@@ -77,7 +80,7 @@ class Admin extends Korisnik{
             $oblastModel->update($idobl, [
                 "BrojRecenzenata"=>$oblast->BrojRecenzenata+1
             ]);
-            $zahtevModel->where("IdObl", $idobl)->where("IdKor", $idkor)->delete();
+            $zahtevModel->where("IdKor", $idkor)->delete();
         }
         else{
             $this->session->setFlashdata("poruka", "Dostignut je maksimalan broj recenzenata za ovu oblast");

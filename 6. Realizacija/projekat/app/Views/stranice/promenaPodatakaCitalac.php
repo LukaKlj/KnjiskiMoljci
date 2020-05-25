@@ -15,7 +15,7 @@
         <div class="offset-sm-4 col-sm-4">
             <div class="table-responsive smallerfont text-center">
                 <form action="<?php echo site_url($controller."/noviPodaci")?>" method="post">
-                    <table class="table userpass">
+                    <table class="table table-sm userpass">
                         <tr>
                             <td>Ime:</td>
                             <td><input type='text' name="ime" value="<?php echo set_value("ime", $korisnik->Ime)?>"></td>

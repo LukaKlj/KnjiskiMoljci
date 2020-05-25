@@ -6,31 +6,17 @@
             </span>
         </div>
         <div class="col-sm-3">
-            <form class="navbar-form">
+            <form class="navbar-form" name="pretraga" action="<?php echo site_url($controller."/pretraga")?>" method="get">
                 <div class="input-group">
-                    <input class="form-control input-sm" type="text" placeholder="Pretraga...">
+                    <input name="kljuc" class="form-control input-sm" type="text" placeholder="Pretraga...">
                     <span class="input-group-btn">
-                        <button class="btn btn-default userpass">
-                            Pretrazi
-                        </button>
+                        <button type="submit" class="btn btn-default userpass">Pretrazi</button>
                     </span>
                 </div>
             </form>
         </div>
-        <div class="offset-sm-3 col-sm-2">
-            <nav aria-label="Svi tekstovi">
-                <ul class="pagination pagination-sm">
-                    <li class="page-item">
-                        <a href="#" class="page-link">Prethodna</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">Sledeća</a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="offset-sm-3 col-sm-2 userpass">
+            <?php echo $pager->links()?>
         </div>
     </div>
     <div class="row">
@@ -47,36 +33,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="d-flex">
-                            <td class="col-2">
-                                <a href="citanjeTeksta1.html">Prvi Tekst</a>
-                            </td> 
-                            <td class="col-2">
-                                <a href="#">autor1</a>
-                            </td>
-                            <td class="col-2">
-                                3.7
-                            </td>
-                            <td class="col-2">
-                                Ratni
-                            </td>
-                            <td class="col-4">10. februar 2019. 12:00</td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-2">
-                                <a href="citanjeTeksta2.html">Drugi Tekst</a>
-                            </td>
-                            <td class="col-2">
-                                <a href="#">autor2</a>
-                            </td>
-                            <td class="col-2">
-                                4.5
-                            </td>
-                            <td class="col-2">
-                                Ljubavni
-                            </td>
-                            <td class="col-4">10. februar 2019. 12:00</td>
-                        </tr>
+                        <?php
+                            foreach($tekstovi as $tekst){
+                                echo "<tr class='d-flex'>
+                                    <td class='col-2'>
+                                        <a href='".site_url($controller."/citanjeTeksta/{$tekst->IdTeksta}")."'>{$tekst->Naziv}</a>
+                                    </td> 
+                                    <td class='col-2'>
+                                        <a href='".site_url($controller."/pregledTekstova/{$tekst->IdKor}")."'>{$korisnici[$tekst->IdTeksta]->username}</a>
+                                    </td>
+                                    <td class='col-2'>
+                                        {$prosecneOcene[$tekst->IdTeksta]}
+                                    </td>
+                                    <td class='col-2'>
+                                        {$oblasti[$tekst->IdTeksta]->Naziv}
+                                    </td>
+                                    <td class='col-4'>{$tekst->Datum} {$tekst->Vreme}</td>
+                                </tr>";
+                            }
+                        ?>
                     </tbody>
                 </table>
             </div>                

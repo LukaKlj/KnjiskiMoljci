@@ -18,6 +18,14 @@ class KorisnikModel extends Model{
         return $korisnici;
     }
     
+    public function korisniciZaKomentare($komentari){
+        $korisnici=[];
+        foreach($komentari as $komentar){
+            $korisnici[$komentar->IdKom]=$this->find($komentar->IdKor);
+        }
+        return $korisnici;
+    }
+    
     public function dohvatiStatus($idkor){
         $citalacModel=new CitalacModel();
         $pisacModel=new PisacModel();

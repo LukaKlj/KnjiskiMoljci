@@ -63,6 +63,16 @@ a:any-link{
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.biggerBack{
+    background-image: url(../images/background.jpg);
+    background-size: cover;
+    position: relative;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .writerBack{
   background-image: url(../images/writer.jpg);
   background-size: cover;

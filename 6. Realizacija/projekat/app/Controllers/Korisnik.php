@@ -3,6 +3,7 @@
 use App\Models\OblastModel;
 use App\Models\TekstModel;
 use App\Models\KorisnikModel;
+use App\Models\KomentarModel;
 use App\Models\OcenaModel;
 use CodeIgniter\I18n\Time;
 
@@ -17,8 +18,34 @@ abstract class Korisnik extends BaseController{
     }
     
     public function index(){
+        $tekstModel=new TekstModel();
+        $korisnikModel=new KorisnikModel();
+        $ocenaModel=new OcenaModel();
+        $oblastModel=new OblastModel();
+        $tekstovi=$this->session->getFlashdata("tekstovi");
+        $pager=$this->session->getFlashdata("pager");
+        if($tekstovi==null){
+            $tekstovi=$tekstModel->where('Odobren', 1)->paginate(10);
+            $pager=$tekstModel->pager;
+        }
+        $korisnici=$korisnikModel->korisniciZaTekstove($tekstovi);
+        $prosecneOcene=$ocenaModel->prosecneOcene($tekstovi);
+        $oblasti=$oblastModel->oblastiZaTekstove($tekstovi);
         $poruka=$this->session->getFlashdata("poruka");
-        $this->prikaz("pocetna", ["akcija"=>"pocetna", "poruka"=>$poruka]);
+        $this->prikaz("pocetna", ["akcija"=>"pocetna", "poruka"=>$poruka,
+            "tekstovi"=>$tekstovi, "pager"=>$pager, "korisnici"=>$korisnici,
+            "prosecneOcene"=>$prosecneOcene, "oblasti"=>$oblasti]);
+    }
+    
+    public function pretraga(){
+        $tekstModel=new TekstModel();
+        $tekstovi=$tekstModel->where("Odobren", 1)->like("Naziv", $this->request->getVar("kljuc"))->paginate(10);
+        if($tekstovi==null){
+            $this->session->setFlashdata("poruka", "Nijedan tekst nije pronađen pa su zato prikazani svi");
+        }
+        $this->session->setFlashdata("tekstovi", $tekstovi);
+        $this->session->setFlashdata("pager", $tekstModel->pager);
+        return redirect()->back();
     }
     
     public function objavaTeksta($poruka=null){
@@ -174,6 +201,71 @@ abstract class Korisnik extends BaseController{
     public function odjava(){
         $this->session->destroy();
         return redirect()->to('/');
+    }
+    
+    public function citanjeTeksta($idteksta){
+        $tekstModel=new TekstModel();
+        $komentarModel=new KomentarModel();
+        $korisnikModel=new KorisnikModel();
+        $ocenaModel=new OcenaModel();
+        $tekst=$tekstModel->find($idteksta);
+        $komentari=$komentarModel->where("IdTeksta", $idteksta)->orderBy("Datum", "ASC")->orderBy("Vreme", "ASC")->findAll();
+        $korisnici=$korisnikModel->korisniciZaKomentare($komentari);
+        $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
+        $poruka=$this->session->getFlashdata("poruka");
+        $boja=$this->session->getFlashdata("boja");
+        $this->prikaz("citanjeTeksta", ["poruka"=>$poruka, "boja"=>$boja, "tekst"=>$tekst, "komentari"=>$komentari,
+            "korisnici"=>$korisnici, "ocena"=>$ocena]);
+    }
+    
+    //poziva se AJAXom
+    public function oceni($idteksta){
+        $ocenaModel=new OcenaModel();
+        if($this->request->getVar('ocena')=='bez'){
+            $ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->delete();
+            echo "Ocena obrisana";
+            return;
+        }
+        $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
+        if($ocena!=null){
+            $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)
+                    ->where("IdTeksta", $idteksta)->set(["Ocena"=>$this->request->getVar('ocena')])->update();
+        }
+        else{
+            $ocenaModel->insert([
+                'IdKor'=>$this->session->get('korisnik')->IdKor,
+                'IdTeksta'=>$idteksta,
+                'Ocena'=>$this->request->getVar('ocena')
+            ]);
+        }
+        echo "Uspešno zabeležena ocena";
+    }
+    
+    //poziva se AJAXom
+    public function komentarisi($idteksta){
+        $komentarModel=new KomentarModel();
+        $time=new Time('now', 'Europe/Belgrade');
+        $komentarModel->insert([
+            'Tekst'=>$this->request->getVar('komentar'),
+            'Datum'=>$time->toDateString(),
+            'Vreme'=>$time->toTimeString(),
+            'IdKor'=>$this->session->get('korisnik')->IdKor,
+            'IdTeksta'=>$idteksta
+        ]);
+    }
+    
+    public function osveziKomentare($idteksta){
+        $komentarModel=new KomentarModel();
+        $korisnikModel=new KorisnikModel();
+        $komentari=$komentarModel->where("IdTeksta", $idteksta)->orderBy("Datum", "ASC")->orderBy("Vreme", "ASC")->findAll();
+        $korisnici=$korisnikModel->korisniciZaKomentare($komentari);
+        foreach ($komentari as $komentar){
+            echo "<tr>
+                <td><a href='".site_url($this->getController()."/pregledTekstova/{$korisnici[$komentar->IdKom]->IdKor}")."'>{$korisnici[$komentar->IdKom]->username}</a></td>
+                <td>{$komentar->Tekst}</td>
+                <td>{$komentar->Datum} {$komentar->Vreme}</td>
+            </tr>";
+        }
     }
     
     abstract protected function getStatus();

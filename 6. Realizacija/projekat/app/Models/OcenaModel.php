@@ -65,7 +65,7 @@ class OcenaModel extends Model{
             ];
         }
         //sortiraj po prosecnoj oceni
-        $sortiraneProsecneOcene= $this->quickSort($prosecneOcene);
+        $sortiraneProsecneOcene = $this->quickSort($prosecneOcene);
         
         return $sortiraneProsecneOcene;
     }
@@ -93,6 +93,28 @@ class OcenaModel extends Model{
             }
             return array_merge($this->quickSort($left), array($pivot), $this->quickSort($right));
         }
+    }
+    
+    public function prosecneOcene($tekstovi){
+        $prosecneOcene=[];
+        foreach($tekstovi as $tekst){
+            $zbir=0;
+            $brojac=0;
+            if($tekst->Odobren){
+                $ocene=$this->where("IdTeksta", $tekst->IdTeksta)->findAll();
+                foreach($ocene as $ocena){
+                    $zbir+=$ocena->Ocena;
+                    $brojac++;
+                }
+            }
+            if($brojac==0){
+                $prosecneOcene[$tekst->IdTeksta]="Nema ocena";
+            }
+            else{
+                $prosecneOcene[$tekst->IdTeksta]=$zbir/$brojac;
+            }
+        }
+        return $prosecneOcene;
     }
 }
 

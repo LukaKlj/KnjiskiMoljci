@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: May 25, 2020 at 12:07 AM
+-- Generation Time: May 25, 2020 at 02:02 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.12
 
@@ -88,10 +88,10 @@ CREATE TABLE IF NOT EXISTS `citalac` (
 --
 
 INSERT INTO `citalac` (`VrstaKartice`, `BrojKartice`, `MesecIsteka`, `GodinaIsteka`, `CVV`, `IdKor`) VALUES
-('Visa', '4530 6542 1262 3248', '10', 2020, '983', 23),
-('Master', '5515 9779 1340 0830', '8', 2023, '483', 24),
-('American', '3715 9104 5047 734', '2', 2021, '948', 25),
-('visa', '4363 9090 5564 5456', '7', 0000, '123', 31);
+('visa', '4530 6542 1262 3248', '10', 2020, '983', 23),
+('mastercard', '5515 9779 1340 0830', '8', 2023, '483', 24),
+('amex', '3715 9104 5047 734', '2', 2021, '948', 25),
+('visa', '4363909055645456', '8', 2020, '123', 34);
 
 -- --------------------------------------------------------
 
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `korisnik` (
   `IdKor` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`IdKor`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `korisnik`
@@ -178,7 +178,7 @@ INSERT INTO `korisnik` (`Ime`, `Prezime`, `email`, `username`, `password`, `Datu
 ('Zaklina', 'Babic', 'zaklina@mail.com', 'zaklina', 'sifra123', '1990-10-19', 'z', 23),
 ('Ivo', 'Loncar', 'ivo@mail.com', 'ivo', 'sifra123', '1937-06-20', 'm', 24),
 ('Vladimir', 'Jovanovic', 'vladimir@mail.com', 'vladimir', 'sifra123', '2000-12-12', 'm', 25),
-('Test', 'Test', 'luka.kljajic1998@gmail.com', 'kalucar8', 'lukamaja', '1998-12-12', 'm', 31);
+('Test', 'Test', 'luka.kljajic1998@gmail.com', 'kalucar8', 'lukamaja', '1998-01-11', 'm', 34);
 
 -- --------------------------------------------------------
 

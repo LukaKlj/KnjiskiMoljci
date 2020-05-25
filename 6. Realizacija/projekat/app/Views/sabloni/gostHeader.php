@@ -21,13 +21,13 @@
                 if($akcija=="prijava") {
                 echo '<li class="nav-item ';
                 echo '">
-                    <a class="nav-link" href="'.site_url($controller."/registrujSe").'">Registruj se</a>
+                    <a class="nav-link" href="'.site_url("/registrujSe").'">Registruj se</a>
                 </li>';
                 }
                 if ($akcija=='registracija') {
                   echo '<li class="nav-item ';
                 echo '">
-                    <a class="nav-link" href="'.site_url($controller).'">Prijavi se</a>
+                    <a class="nav-link" href="'.site_url('/').'">Prijavi se</a>
                 </li>';  
                 }
               ?>
