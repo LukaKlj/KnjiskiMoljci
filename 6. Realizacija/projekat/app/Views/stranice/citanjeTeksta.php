@@ -8,7 +8,7 @@
         </div>
         <div class='col-sm-9 text-center userpass'>
             <span>Ovde upišite broj strane do koje ste stigli i to će biti sačuvano</span>
-            <input type="number" id="strana" style="width: 5%">
+            <input type="number" id="strana" name="strana" style="width: 5%" value='<?php echo set_value("strana", $strana)?>'>
         </div>
     </div>
     <div class="row">

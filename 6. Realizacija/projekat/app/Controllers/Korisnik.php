@@ -198,14 +198,18 @@ abstract class Korisnik extends BaseController{
         $komentarModel=new KomentarModel();
         $korisnikModel=new KorisnikModel();
         $ocenaModel=new OcenaModel();
+        $citaModel=new CitaModel();
         $tekst=$tekstModel->find($idteksta);
+        $cita=$citaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
+        if($cita!=null) $strana=$cita->Strana;
+        else $strana=0;
         $autorTeksta=$korisnikModel->find($tekst->IdKor);
         $komentari=$komentarModel->where("IdTeksta", $idteksta)->orderBy("Datum", "ASC")->orderBy("Vreme", "ASC")->findAll();
         $korisnici=$korisnikModel->korisniciZaKomentare($komentari);
         $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
         $poruka=$this->session->getFlashdata("poruka");
         $this->prikaz("citanjeTeksta", ["poruka"=>$poruka, "tekst"=>$tekst, "komentari"=>$komentari,
-            "korisnici"=>$korisnici, "ocena"=>$ocena, "autorTeksta"=>$autorTeksta]);
+            "korisnici"=>$korisnici, "ocena"=>$ocena, "autorTeksta"=>$autorTeksta, "strana"=>$strana]);
     }
     
     //poziva se AJAXom
@@ -269,6 +273,10 @@ abstract class Korisnik extends BaseController{
     
     public function zapamtiStranu($idteksta){
         $citaModel=new CitaModel();
+        if($this->request->getVar('strana')==0){
+            $citaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->delete();
+            return;
+        }
         $cita=$citaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
         if($cita!=null){
             $citaModel->where("IdKor", $this->session->get('korisnik')->IdKor)

@@ -9,17 +9,14 @@
             <form class="navbar-form" name="pretraga" action="<?php echo site_url($controller)?>" method="get">
                 <div class="input-group">
                     <input name="kljuc" class="form-control input input-sm" type="text" placeholder="Pretraga...">
-                    <input name="brojPoStrani" class="input input-sm smallerInput" type="number" value='<?php echo $broj?>'>
+                    <input title="Ovde uneti koliko rezultata želite da vidite po stranici" name="brojPoStrani" class="input input-sm smallerInput" type="number" value='<?php echo $broj?>'>
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default userpass">Pretrazi</button>
                     </span>
                 </div>
             </form>
         </div>
-        <div class="col-sm-3 text-center smallerfont userpass font-italic">
-            U polje pored polja za pretragu uneti koliko rezultata želite da vidite po stranici
-        </div>
-        <div class="col-sm-2 userpass" id="linkovi">
+        <div class="offset-sm-2 col-sm-3 userpass" id="linkovi">
             <?php echo $pager->links();?>
         </div>
     </div>

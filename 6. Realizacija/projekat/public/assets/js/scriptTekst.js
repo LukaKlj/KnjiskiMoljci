@@ -42,6 +42,7 @@ $(document).ready(function(){
             url: baseURL+"/osveziKomentare/"+parametar,
             success: function(response){
                 $("#telo").html(response);
+                $(".korisnik").click(korisnik);
             }
         });
     }
@@ -59,7 +60,24 @@ $(document).ready(function(){
         });
     });
     
+    $(".korisnik").click(korisnik);
     
+    function korisnik(){
+        var idkor=$(this).data('id');
+        $.ajax({
+            type: 'get',
+            url: baseURL+"/citalac/"+idkor,
+            success: function(response){
+                if(response!=""){
+                    $(".poruka").html(response);
+                    setTimeout(sakrijPoruku, 5000);
+                }
+                else{
+                    window.location.href=baseURL+"/pregledTekstova/"+idkor;
+                }
+            }
+        });
+    }
 });
     
     

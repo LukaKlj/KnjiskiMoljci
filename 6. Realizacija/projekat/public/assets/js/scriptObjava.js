@@ -23,6 +23,9 @@ $(document).ready(function(){
                 if(response.boja == "bela"){
                     $(".poruka").css("color", "white");
                 }
+                else{
+                    $(".poruka").css("color", "red");
+                }
                 $(".poruka").html(response.poruka);
                 setTimeout(sakrijPoruku, 5000);
             }
@@ -32,7 +35,5 @@ $(document).ready(function(){
     
 });
 
-
-        //action="<?php echo site_url($controller."/noviTekst")?>" method="post" enctype="multipart/form-data"
 
 
