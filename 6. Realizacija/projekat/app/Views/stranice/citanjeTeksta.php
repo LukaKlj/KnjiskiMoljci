@@ -1,17 +1,30 @@
 <div class="container-fluid">
     <div class="row">
+        <div class='col-sm-3 text-center userpass'>
+            <h4>
+                <?php echo "<a href='".site_url($controller."/pregledTekstova/{$autorTeksta->IdKor}")."'>{$autorTeksta->username}</a>" ?>
+                : <?php echo $tekst->Naziv?>
+            </h4>
+        </div>
+        <div class='col-sm-9 text-center userpass'>
+            <span>Ovde upišite broj strane do koje ste stigli i to će biti sačuvano</span>
+            <input type="number" id="strana" style="width: 5%">
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
-            <embed src="<?php echo site_url("../texts/{$tekst->Tekst}");?>" type="application/pdf" width="100%" height="600px">
+            <div class="embed-responsive embed-responsive-4by3">
+                <iframe class="embed-responsive-item" src="<?php echo site_url("../texts/{$tekst->Tekst}");?>" style="border: none"></iframe>
+            </div>
         </div>
     </div>
     <script>
-        var baseURL="<?php echo site_url($controller);?>";
         var parametar="<?php echo $tekst->IdTeksta;?>";
     </script>
     <script src="<?php echo site_url("/assets/js/scriptTekst.js"); ?>"></script> 
     <div class="row">
         <div class="col-sm-4 text-center">
-            <span class="poruka" style="<?php if($boja=='bela') echo "color:white"; else echo "color:red";?>">
+            <span class="poruka" style="color:red">
                 <?php if(isset($poruka)) echo $poruka;?>
             </span>
         </div>
@@ -50,7 +63,7 @@
                         <?php
                             foreach ($komentari as $komentar){
                                 echo "<tr>
-                                    <td><a href='".site_url($controller."/pregledTekstova/{$korisnici[$komentar->IdKom]->IdKor}")."'>{$korisnici[$komentar->IdKom]->username}</a></td>
+                                    <td><a class='pointer-link korisnik' data-id='{$korisnici[$komentar->IdKom]->IdKor}'>{$korisnici[$komentar->IdKom]->username}</a></td>
                                     <td>{$komentar->Tekst}</td>
                                     <td>{$komentar->Datum} {$komentar->Vreme}</td>
                                 </tr>";

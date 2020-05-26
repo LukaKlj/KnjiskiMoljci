@@ -1,3 +1,7 @@
+<script>
+    var parametri=[];
+</script>
+<script src="<?php echo site_url("/assets/js/scriptRecenziranje.js"); ?>"></script> 
 <div class="container-fluid back">
     <div class="row">
         <div class="col-sm-12 naslov text-center">
@@ -23,24 +27,24 @@
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                     </thead>
-                    <form method="get">
-                        <tbody>
-                        <?php
-                        foreach($tekstovi as $tekst){
-                            echo "
-                            <tr>
-                                <td><a href='../texts/$tekst->Tekst'>$tekst->Naziv</a></td>
-                                <td><a href='". site_url($controller."/pregledTekstova/{$korisnici[$tekst->IdTeksta]->IdKor}")
-                                ."'>{$korisnici[$tekst->IdTeksta]->username}</a></td>
-                                <td>{$oblasti[$tekst->IdTeksta]->Naziv}</td>
-                                <td>{$tekst->Datum} {$tekst->Vreme}</td>
-                                <td><button type='submit' class='btn btn-sm btn-success' formaction='".site_url($controller."/odobri/$tekst->IdTeksta")."'>Odobri</button></td>
-                                <td><button type='submit' class='btn btn-sm btn-danger' formaction='". site_url($controller."/odbaci/$tekst->IdTeksta")."'>Odbaci</button></td>
-                            </tr>";
-                        }
-                        ?>
-                        </tbody>
-                    </form>
+                    <tbody id="telo">
+                    <?php
+                    $i=0;
+                    foreach($tekstovi as $tekst){
+                        echo "<script>parametri[{$i}]={$tekst->IdTeksta};</script>";
+                        echo "
+                        <tr>
+                            <td><a href='../texts/$tekst->Tekst'>$tekst->Naziv</a></td>
+                            <td><a class='pointer-link korisnik' data-id='{$korisnici[$tekst->IdTeksta]->IdKor}'>{$korisnici[$tekst->IdTeksta]->username}</a></td>
+                            <td>{$oblasti[$tekst->IdTeksta]->Naziv}</td>
+                            <td>{$tekst->Datum} {$tekst->Vreme}</td>
+                            <td><button type='button' class='btn btn-sm btn-success odobri' data-index={$i}>Odobri</button></td>
+                            <td><button type='button' class='btn btn-sm btn-danger odbaci' data-index={$i}>Odbaci</button></td>
+                        </tr>";
+                        $i++;
+                    }
+                    ?>
+                    </tbody>
                 </table>
             </div>
         </div>

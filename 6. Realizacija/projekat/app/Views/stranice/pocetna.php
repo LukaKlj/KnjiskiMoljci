@@ -5,18 +5,22 @@
                 <?php if(isset($poruka)) echo $poruka;?>
             </span>
         </div>
-        <div class="col-sm-3">
-            <form class="navbar-form" name="pretraga" action="<?php echo site_url($controller."/pretraga")?>" method="get">
+        <div class="col-sm-4">
+            <form class="navbar-form" name="pretraga" action="<?php echo site_url($controller)?>" method="get">
                 <div class="input-group">
-                    <input name="kljuc" class="form-control input-sm" type="text" placeholder="Pretraga...">
+                    <input name="kljuc" class="form-control input input-sm" type="text" placeholder="Pretraga...">
+                    <input name="brojPoStrani" class="input input-sm smallerInput" type="number" value='<?php echo $broj?>'>
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default userpass">Pretrazi</button>
                     </span>
                 </div>
             </form>
         </div>
-        <div class="offset-sm-3 col-sm-2 userpass">
-            <?php echo $pager->links()?>
+        <div class="col-sm-3 text-center smallerfont userpass font-italic">
+            U polje pored polja za pretragu uneti koliko rezultata želite da vidite po stranici
+        </div>
+        <div class="col-sm-2 userpass" id="linkovi">
+            <?php echo $pager->links();?>
         </div>
     </div>
     <div class="row">
@@ -32,7 +36,7 @@
                             <th class="col-4">Vreme</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="telo">
                         <?php
                             foreach($tekstovi as $tekst){
                                 echo "<tr class='d-flex'>

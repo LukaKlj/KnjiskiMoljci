@@ -1,3 +1,8 @@
+<script>
+    var parametar1="<?php echo $oblast->IdObl;?>";
+    var parametri2=[];
+</script>
+<script src="<?php echo site_url("/assets/js/scriptZahtevi.js"); ?>"></script> 
 <div class="container-fluid back">
     <div class="row">
         <div class="col-sm-12 text-center naslov">
@@ -24,37 +29,38 @@
                         <th></th>
                         <th></th>
                     </thead>
-                    <form method="get">
-                        <tbody>
-                            <?php
-                            foreach($prosecneOcene as $prosecnaOcena){
-                                $broj="";
-                                $recenzent=false;
-                                if($prosecnaOcena["brojRecenzija"]!=null){
-                                    $recenzent=true;
-                                    $broj=$broj.$prosecnaOcena["brojRecenzija"];
-                                }
-                                echo "<tr>
-                                    <td><a href='". site_url($controller."/pregledTekstova/{$prosecnaOcena["id"]}")."'>{$prosecnaOcena["username"]}</a></td>
-                                    <td>{$prosecnaOcena["ocena"]}</td>
-                                    <td>{$broj}</td>";
-                                if($recenzent){
-                                    echo "<td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td><button class='btn btn-sm btn-warning' formaction='".site_url($controller."/vrati/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Vrati</button></td>
-                                    </tr>";
-                                }
-                                else{
-                                    echo "<td><button class='btn btn-sm btn-success' formaction='".site_url($controller."/odobri/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Odobri</button></td>
-                                        <td><button class='btn btn-sm btn-danger' formaction='".site_url($controller."/odbaci/{$oblast->IdObl}/{$prosecnaOcena["id"]}")."'>Odbaci</button></td>
-                                        <td>&nbsp;</td>
-                                    </tr>";
-                                }
+                    <tbody id="telo">
+                        <?php
+                        $i=0;
+                        foreach($prosecneOcene as $prosecnaOcena){
+                            $broj="";
+                            $recenzent=false;
+                            if($prosecnaOcena["brojRecenzija"]!=null){
+                                $recenzent=true;
+                                $broj=$broj.$prosecnaOcena["brojRecenzija"];
                             }
-                            ?>
-                        </tbody>
-                    </form>
-                </table>
+                            echo "<tr>
+                                <td><a href='". site_url($controller."/pregledTekstova/{$prosecnaOcena["id"]}")."'>{$prosecnaOcena["username"]}</a></td>
+                                <td>{$prosecnaOcena["ocena"]}</td>
+                                <td>{$broj}</td>";
+                            echo "<script>parametri2[{$i}]=".$prosecnaOcena['id'].";</script>";
+                            if($recenzent){
+                                echo "<td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><button class='btn btn-sm btn-warning vrati' data-index='{$i}'>Vrati</button></td>
+                                </tr>";
+                            }
+                            else{
+                                echo "<td><button class='btn btn-sm btn-success odobri' data-index='{$i}'>Odobri</button></td>
+                                    <td><button class='btn btn-sm btn-danger odbaci' data-index='{$i}'>Odbaci</button></td>
+                                    <td>&nbsp;</td>
+                                </tr>";
+                            }
+                            $i++;
+                        }
+                        ?>
+                    </tbody>
+            </table>
             </div>
         </div>
     </div>

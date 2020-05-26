@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12 text-center">
             <h1 class="userpass">Registracija</h1>
-            <span class="poruka text-center" style="<?php if($boja=="bela") echo "color:white"; else echo "color:red";?>">
+            <span class="poruka text-center" style="color:red">
                 <?php if(isset($poruka)) echo $poruka;?>
             </span>
         </div>

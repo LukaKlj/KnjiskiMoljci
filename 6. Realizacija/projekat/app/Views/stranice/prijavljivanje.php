@@ -9,7 +9,7 @@
             <h1 class="userpass">
                 Prijava
             </h1>
-            <span class="poruka" style="<?php if($boja=="bela") echo "color:white"; else echo "color:red";?>">
+            <span class="poruka" style="color:red">
                 <?php if(isset($poruka)) echo $poruka;?>
             </span>
             <form id="loginform" action="<?= site_url($controller."/prijava") ?>" method="post">

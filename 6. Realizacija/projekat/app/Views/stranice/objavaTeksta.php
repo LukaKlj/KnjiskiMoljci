@@ -1,3 +1,4 @@
+<script src="<?php echo site_url("/assets/js/scriptObjava.js"); ?>"></script> 
 <div class="container-fluid writerBack">
     <div class="row">
         <div class="offset-sm-4 col-sm-4 text-center">
@@ -8,14 +9,14 @@
     </div>
     <div class="row">
         <div class="offset-sm-4 col-sm-4 text-center">
-            <span class="poruka" style="<?php if($boja=="crvena") echo "color:red"; else echo "color:white";?>">
+            <span class="poruka" style="color:red">
                 <?php if(isset($poruka)) echo $poruka;?>
             </span>
         </div>
     </div>
     <div class="row">
         <div class="offset-sm-4 col-sm-4 text-center">
-            <form action="<?php echo site_url($controller."/noviTekst")?>" method="post" enctype="multipart/form-data">
+            <form>
                 <div class="table-responsive">
                     <table class="table table-sm newText">
                         <tr>

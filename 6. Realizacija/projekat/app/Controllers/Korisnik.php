@@ -5,6 +5,7 @@ use App\Models\TekstModel;
 use App\Models\KorisnikModel;
 use App\Models\KomentarModel;
 use App\Models\OcenaModel;
+use App\Models\CitaModel;
 use CodeIgniter\I18n\Time;
 
 abstract class Korisnik extends BaseController{
@@ -22,60 +23,54 @@ abstract class Korisnik extends BaseController{
         $korisnikModel=new KorisnikModel();
         $ocenaModel=new OcenaModel();
         $oblastModel=new OblastModel();
-        $tekstovi=$this->session->getFlashdata("tekstovi");
-        $pager=$this->session->getFlashdata("pager");
-        if($tekstovi==null){
-            $tekstovi=$tekstModel->where('Odobren', 1)->paginate(10);
-            $pager=$tekstModel->pager;
+        $broj;
+        if($this->request->getVar('brojPoStrani')!=null){
+            $broj=$this->request->getVar('brojPoStrani');
         }
+        else{
+            $broj=20;
+        }
+        if($broj<1) $broj=1;
+        if($this->request->getVar('kljuc')!=null){
+            $tekstovi=$tekstModel->where("Odobren", 1)->like("Naziv", $this->request->getVar("kljuc"))->paginate($broj);
+        }
+        else{
+            $tekstovi=$tekstModel->where('Odobren', 1)->paginate($broj);
+        }
+        $pager=$tekstModel->pager;
         $korisnici=$korisnikModel->korisniciZaTekstove($tekstovi);
         $prosecneOcene=$ocenaModel->prosecneOcene($tekstovi);
         $oblasti=$oblastModel->oblastiZaTekstove($tekstovi);
         $poruka=$this->session->getFlashdata("poruka");
         $this->prikaz("pocetna", ["akcija"=>"pocetna", "poruka"=>$poruka,
             "tekstovi"=>$tekstovi, "pager"=>$pager, "korisnici"=>$korisnici,
-            "prosecneOcene"=>$prosecneOcene, "oblasti"=>$oblasti]);
-    }
-    
-    public function pretraga(){
-        $tekstModel=new TekstModel();
-        $tekstovi=$tekstModel->where("Odobren", 1)->like("Naziv", $this->request->getVar("kljuc"))->paginate(10);
-        if($tekstovi==null){
-            $this->session->setFlashdata("poruka", "Nijedan tekst nije pronađen pa su zato prikazani svi");
-        }
-        $this->session->setFlashdata("tekstovi", $tekstovi);
-        $this->session->setFlashdata("pager", $tekstModel->pager);
-        return redirect()->back();
+            "prosecneOcene"=>$prosecneOcene, "oblasti"=>$oblasti, "broj"=>$broj]);
     }
     
     public function objavaTeksta($poruka=null){
         $oblastModel=new OblastModel();
         $oblasti=$oblastModel->findAll();
         $poruka=$this->session->getFlashdata("poruka");
-        $boja=$this->session->getFlashdata("boja");
-        $this->prikaz("objavaTeksta", ["akcija"=>"objava", "oblasti"=>$oblasti, "poruka"=>$poruka, "boja"=>$boja]);
+        $this->prikaz("objavaTeksta", ["akcija"=>"objava", "oblasti"=>$oblasti, "poruka"=>$poruka]);
     }
     
     public function noviTekst(){
         if(!$this->validate(["naslov"=>"required"])){
-            $this->session->setFlashdata("boja", "crvena");
-            $this->session->setFlashdata("poruka", "Izaberite naslov");
-            return redirect()->back()->withInput();
+            echo json_encode(array("poruka"=>"Izaberite naslov", "boja"=>"crvena"));
+            return;
         }
         $file = $this->request->getFile('myfile');
         if($file==null || !$file->isValid()){
-            $this->session->setFlashdata("boja", "crvena");
-            $this->session->setFlashdata("poruka", "Priložite tekst");
-            return redirect()->back()->withInput();
+            echo json_encode(array("poruka"=>"Priložite tekst", "boja"=>"crvena"));
+            return;
         }
         if($file->getExtension()!="pdf"){
-            $this->session->setFlashdata("boja", "crvena");
-            $this->session->setFlashdata("poruka", "Priložite tekst u .pdf formatu");
-            return redirect()->back()->withInput();
+            echo json_encode(array("poruka"=>"Priložite tekst u PDF formatu", "boja"=>"crvena"));
+            return;
         }
         $tekstModel=new TekstModel();
         $link=($tekstModel->najveciID()+1).".pdf";
-        $file->store('../texts/', $link);
+        $file->store('../../public/texts/', $link);
         $time=new Time('now', 'Europe/Belgrade');
         $tekstModel->save([
             'Naziv'=>$this->request->getVar('naslov'),
@@ -86,24 +81,22 @@ abstract class Korisnik extends BaseController{
             'Datum'=>$time->toDateString(),
             'Vreme'=>$time->toTimeString()
         ]);
-        $this->session->setFlashdata("poruka", "Uspešno objavljen tekst");
-        return redirect()->back();
+        echo json_encode(array("poruka"=>"Uspešno objavljen tekst", "boja"=>"bela"));
     }
     
     public function promenaPodataka(){
         $poruka=$this->session->getFlashdata("poruka");
-        $boja=$this->session->getFlashdata("boja");
-        $this->prikaz("promenaPodatakaOstali", ["akcija"=>"podaci", "poruka"=>$poruka, "boja"=>$boja]);
+        $this->prikaz("promenaPodatakaOstali", ["akcija"=>"podaci", "poruka"=>$poruka]);
     }
     
     public function noviPodaci() {
         if(!$this->validate(['ime'=>'required', 'prezime'=>'required', 'email'=>'required'])){
-            $this->session->setFlashdata("poruka", "Sva polja moraju biti popunjena");
-            return redirect()->back()->withInput();
+            echo "Sva polja moraju biti popunjena";
+            return;
         }
         if(!$this->validate(['email'=>'valid_email'])){
-            $this->session->setFlashdata("poruka", "Loš format e-mail adrese");
-            return redirect()->back()->withInput();
+            echo "Loš format e-mail adrese";
+            return;
         }
         $korisnikModel=new KorisnikModel();
         $korisnikModel->update($this->session->get("korisnik")->IdKor,[
@@ -111,41 +104,45 @@ abstract class Korisnik extends BaseController{
             'Prezime'=>$this->request->getVar('prezime'),
             'email'=>$this->request->getVar('email')
         ]);
-        $this->session->setFlashdata("boja", "bela");
-        $this->session->setFlashdata("poruka", "Uspešno promenjeni podaci");
-        return redirect()->back();
+        echo "Uspešno promenjeni podaci";
     }
     
     public function promenaLozinke(){
         $poruka=$this->session->getFlashdata("poruka");
-        $boja=$this->session->getFlashdata("boja");
-        $this->prikaz("promenaLozinke", ["akcija"=>"lozinka", "poruka"=>$poruka, "boja"=>$boja]);
+        $this->prikaz("promenaLozinke", ["akcija"=>"lozinka", "poruka"=>$poruka]);
     }
     
     public function novaLozinka(){
         $korisnikModel=new KorisnikModel();
         if(!$this->validate(['stara'=>'required', 'staraPonovo'=>'required', 'nova'=>'required'])){
-            $this->session->setFlashdata("poruka", "Sva polja moraju biti popunjena");
-            return redirect()->back();
+            echo "Sva polja moraju biti popunjena";
+            return;
         }
         if($this->request->getVar('stara')!=$this->session->get('korisnik')->password){
-            $this->session->setFlashdata("poruka", "Stara lozinka nije dobra");
-            return redirect()->back();
+            echo "Stara lozinka nije dobra";
+            return;
         }
         if($this->request->getVar('stara')!=$this->request->getVar('staraPonovo')){
-            $this->session->setFlashdata("poruka", "Potvrda stare lozinke ne odgovara staroj lozinci");
-            return redirect()->back();
+            echo "Potvrda stare lozinke ne odgovara staroj lozinci";
+            return;
         }
         if(!$this->validate(['nova'=>'min_length[8]'])){
-            $this->session->setFlashdata("poruka", "Nova lozinka se mora sastojati od bar 8 karaktera");
-            return redirect()->back();
+            echo "Nova lozinka se mora sastojati od bar 8 karaktera";
+            return;
         }
         $korisnikModel->update($this->session->get('korisnik')->IdKor, [
             'password'=>$this->request->getVar('nova')
         ]);
-        $this->session->setFlashdata("boja", "bela");
-        $this->session->setFlashdata("poruka", "Uspešno promenjena lozinka");
-        return redirect()->back();
+        echo "Uspešno promenjena lozinka";
+        return;
+    }
+    
+    public function citalac($idkor){
+        $korisnikModel=new KorisnikModel();
+        $statusKorisnika=$korisnikModel->dohvatiStatus($idkor);
+        if($statusKorisnika=='Citalac'){
+            echo "Taj korisnik je u statusu čitaoca";
+        }
     }
     
     public function pregledTekstova($idkor){
@@ -154,48 +151,41 @@ abstract class Korisnik extends BaseController{
         $ocenaModel=new OcenaModel();
         $oblastModel=new OblastModel();
         $statusKorisnika=$korisnikModel->dohvatiStatus($idkor);
-        if($statusKorisnika!='Citalac'){
-            $korisnik=$korisnikModel->find($idkor);
-            $tekstovi=$tekstModel->tekstoviKorisnika($korisnik->IdKor);
-            $prosecneOcene=[];
-            $oblasti=[];
-            $ukupniZbir=0;
-            $ukupniBrojac=0;
-            foreach($tekstovi as $tekst){
-                $zbir=0;
-                $brojac=0;
-                if($tekst->Odobren){
-                    $ocene=$ocenaModel->where("IdTeksta", $tekst->IdTeksta)->findAll();
-                    foreach($ocene as $ocena){
-                        $ukupniZbir+=$ocena->Ocena;
-                        $ukupniBrojac++;
-                        $zbir+=$ocena->Ocena;
-                        $brojac++;
-                    }
+        $korisnik=$korisnikModel->find($idkor);
+        $tekstovi=$tekstModel->tekstoviKorisnika($korisnik->IdKor);
+        $prosecneOcene=[];
+        $oblasti=[];
+        $ukupniZbir=0;
+        $ukupniBrojac=0;
+        foreach($tekstovi as $tekst){
+            $zbir=0;
+            $brojac=0;
+            if($tekst->Odobren){
+                $ocene=$ocenaModel->where("IdTeksta", $tekst->IdTeksta)->findAll();
+                foreach($ocene as $ocena){
+                    $ukupniZbir+=$ocena->Ocena;
+                    $ukupniBrojac++;
+                    $zbir+=$ocena->Ocena;
+                    $brojac++;
                 }
-                if($brojac==0){
-                    $prosecneOcene[$tekst->IdTeksta]="Nema ocena";
-                }
-                else{
-                    $prosecneOcene[$tekst->IdTeksta]=$zbir/$brojac;
-                }
-                $oblasti[$tekst->IdTeksta]=$oblastModel->find($tekst->IdObl);
             }
-            if($ukupniBrojac==0){
-                $ukupnaProsecnaOcena="Nema ocena";
+            if($brojac==0){
+                $prosecneOcene[$tekst->IdTeksta]="Nema ocena";
             }
             else{
-                $ukupnaProsecnaOcena=$ukupniZbir/$ukupniBrojac;
+                $prosecneOcene[$tekst->IdTeksta]=$zbir/$brojac;
             }
-            $poruka=$this->session->getFlashdata("poruka");
-            $this->prikaz("listaTekstova", ['korisnik'=>$korisnik, 'statusKorisnika'=>$statusKorisnika, 'tekstovi'=>$tekstovi, 'oblasti'=>$oblasti,
-                'ukupnaProsecnaOcena'=>$ukupnaProsecnaOcena, 'prosecneOcene'=>$prosecneOcene, "poruka"=>$poruka]);
+            $oblasti[$tekst->IdTeksta]=$oblastModel->find($tekst->IdObl);
+        }
+        if($ukupniBrojac==0){
+            $ukupnaProsecnaOcena="Nema ocena";
         }
         else{
-            $this->session->setFlashdata("boja", "crvena");
-            $this->session->setFlashdata("poruka", "Taj korisnik je u statusu čitaoca");
-            return redirect()->back()->withInput();
+            $ukupnaProsecnaOcena=$ukupniZbir/$ukupniBrojac;
         }
+        $poruka=$this->session->getFlashdata("poruka");
+        $this->prikaz("listaTekstova", ['korisnik2'=>$korisnik, 'statusKorisnika'=>$statusKorisnika, 'tekstovi'=>$tekstovi, 'oblasti'=>$oblasti,
+            'ukupnaProsecnaOcena'=>$ukupnaProsecnaOcena, 'prosecneOcene'=>$prosecneOcene, "poruka"=>$poruka]);
     }
     
     public function odjava(){
@@ -209,18 +199,26 @@ abstract class Korisnik extends BaseController{
         $korisnikModel=new KorisnikModel();
         $ocenaModel=new OcenaModel();
         $tekst=$tekstModel->find($idteksta);
+        $autorTeksta=$korisnikModel->find($tekst->IdKor);
         $komentari=$komentarModel->where("IdTeksta", $idteksta)->orderBy("Datum", "ASC")->orderBy("Vreme", "ASC")->findAll();
         $korisnici=$korisnikModel->korisniciZaKomentare($komentari);
         $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
         $poruka=$this->session->getFlashdata("poruka");
-        $boja=$this->session->getFlashdata("boja");
-        $this->prikaz("citanjeTeksta", ["poruka"=>$poruka, "boja"=>$boja, "tekst"=>$tekst, "komentari"=>$komentari,
-            "korisnici"=>$korisnici, "ocena"=>$ocena]);
+        $this->prikaz("citanjeTeksta", ["poruka"=>$poruka, "tekst"=>$tekst, "komentari"=>$komentari,
+            "korisnici"=>$korisnici, "ocena"=>$ocena, "autorTeksta"=>$autorTeksta]);
     }
     
     //poziva se AJAXom
     public function oceni($idteksta){
         $ocenaModel=new OcenaModel();
+        $korisnikModel=new KorisnikModel();
+        $tekstModel=new TekstModel();
+        $tekst=$tekstModel->find($idteksta);
+        $autor=$korisnikModel->find($tekst->IdKor);
+        if($autor==$this->session->get('korisnik')){
+            echo "Ne možete oceniti svoj tekst";
+            return;
+        }
         if($this->request->getVar('ocena')=='bez'){
             $ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->delete();
             echo "Ocena obrisana";
@@ -228,7 +226,7 @@ abstract class Korisnik extends BaseController{
         }
         $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
         if($ocena!=null){
-            $ocena=$ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)
+            $ocenaModel->where("IdKor", $this->session->get('korisnik')->IdKor)
                     ->where("IdTeksta", $idteksta)->set(["Ocena"=>$this->request->getVar('ocena')])->update();
         }
         else{
@@ -254,6 +252,7 @@ abstract class Korisnik extends BaseController{
         ]);
     }
     
+    //poziva se AJAXom
     public function osveziKomentare($idteksta){
         $komentarModel=new KomentarModel();
         $korisnikModel=new KorisnikModel();
@@ -261,10 +260,26 @@ abstract class Korisnik extends BaseController{
         $korisnici=$korisnikModel->korisniciZaKomentare($komentari);
         foreach ($komentari as $komentar){
             echo "<tr>
-                <td><a href='".site_url($this->getController()."/pregledTekstova/{$korisnici[$komentar->IdKom]->IdKor}")."'>{$korisnici[$komentar->IdKom]->username}</a></td>
+                <td><a class='pointer-link korisnik' data-id='{$korisnici[$komentar->IdKom]->IdKor}'>{$korisnici[$komentar->IdKom]->username}</a></td>
                 <td>{$komentar->Tekst}</td>
                 <td>{$komentar->Datum} {$komentar->Vreme}</td>
             </tr>";
+        }
+    }
+    
+    public function zapamtiStranu($idteksta){
+        $citaModel=new CitaModel();
+        $cita=$citaModel->where("IdKor", $this->session->get('korisnik')->IdKor)->where("IdTeksta", $idteksta)->first();
+        if($cita!=null){
+            $citaModel->where("IdKor", $this->session->get('korisnik')->IdKor)
+                    ->where("IdTeksta", $idteksta)->set(["Strana"=>$this->request->getVar('strana')])->update();
+        }
+        else{
+            $citaModel->insert([
+                'IdKor'=>$this->session->get('korisnik')->IdKor,
+                'IdTeksta'=>$idteksta,
+                'Strana'=>$this->request->getVar('strana')
+            ]);
         }
     }
     

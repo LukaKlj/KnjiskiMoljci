@@ -13,10 +13,9 @@ class Citalac extends Korisnik{
         $citalacModel=new CitalacModel();
         $citalac=$citalacModel->find($this->session->get('korisnik')->IdKor);
         $poruka=$this->session->getFlashdata("poruka");
-        $boja=$this->session->getFlashdata("boja");
         $time=new Time("now", "Europe/Belgrade");
         $godina=$time->getYear();
-        $this->prikaz("promenaPodatakaCitalac", ["akcija"=>"podaci", "poruka"=>$poruka, "boja"=>$boja, 
+        $this->prikaz("promenaPodatakaCitalac", ["akcija"=>"podaci", "poruka"=>$poruka,
             "godina"=>$godina, "citalac"=>$citalac]);
     }
     
@@ -24,28 +23,28 @@ class Citalac extends Korisnik{
         $db=db_connect();
         if(!$this->validate(['ime'=>'required', 'prezime'=>'required', 'email'=>'required',
             'broj'=>'required', 'cvv'=>'required'])){
-            $this->session->setFlashdata("poruka", "Sva polja moraju biti popunjena");
-            return redirect()->back()->withInput();
+            echo "Sva polja moraju biti popunjena";
+            return;
         }
         if(!$this->validate(['email'=>'valid_email'])){
-            $this->session->setFlashdata("poruka", "Loš format e-mail adrese");
-            return redirect()->back()->withInput();
+            echo "Loš format e-mail adrese";
+            return;
         }
         $tipKartice=$this->request->getVar("CreditCards");
         if(!$this->validate(['broj'=>"valid_cc_number[$tipKartice]"])){
-            $this->session->setFlashdata("poruka", "Broj kreditne kartice nije validan");
-            return redirect()->back()->withInput();
+            echo "Broj kreditne kartice nije validan";
+            return;
         }
         if(!$this->validate(['cvv'=>'regex_match[/^[0-9]{3,4}$/]'])){
             $this->session->setFlashdata("poruka", "Loš format CVV koda");
-            return redirect()->back()->withInput();
+            return;
         }
         $time=new Time("now", "Europe/Belgrade");
         $godina=$time->getYear();
         $mesec=$time->getMonth();
         if($this->request->getVar("godina")==$godina && $this->request->getVar("mesec")<$mesec){
-            $this->session->setFlashdata("poruka", "Vaša kartica je istekla");
-            return redirect()->back()->withInput();
+            echo "Vaša kartica je istekla";
+            return;
         }
         $korisnikModel=new KorisnikModel();
         $citalacModel=new CitalacModel();
@@ -63,9 +62,8 @@ class Citalac extends Korisnik{
             'CVV'=>$this->request->getVar('cvv')
         ]);
         $db->transComplete();
-        $this->session->setFlashdata("boja", "bela");
-        $this->session->setFlashdata("poruka", "Uspešno promenjeni podaci");
-        return redirect()->back();
+        echo "Uspešno promenjeni podaci";
+        return;
     }
 
     protected function getStatus() {

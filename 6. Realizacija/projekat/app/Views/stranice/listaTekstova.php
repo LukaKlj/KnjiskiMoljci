@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm-12 text-center">
             <h3 class="newText" align="left">
-                <?php echo "{$korisnik->username}({$statusKorisnika})";?>
+                <?php echo "{$korisnik2->username}({$statusKorisnika})";?>
             </h3>
             <div class="table-responsive smallerfont">
                 <table class="table table-sm newText">

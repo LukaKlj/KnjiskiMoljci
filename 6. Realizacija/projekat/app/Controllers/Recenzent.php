@@ -37,37 +37,65 @@ class Recenzent extends Korisnik{
         $recenzijaModel=new RecenzijaModel();
         $recenzentModel=new RecenzentModel();
         $pisacModel=new PisacModel();
-        $tekst=$tekstModel->find($idteksta);
-        $citalac=$citalacModel->find($tekst->IdKor);
         $time=new Time('now', 'Europe/Belgrade');
         $db->transStart();
-        $tekstModel->update($idteksta, ["Odobren"=>1]);
-        $recenzijaModel->save([
-            "IdTeksta"=>$tekst->IdTeksta,
-            "IdKor"=>$this->session->get("korisnik")->IdKor
-        ]);
-        $recenzent=$recenzentModel->find($this->session->get("korisnik")->IdKor);
-        $recenzentModel->update($this->session->get("korisnik")->IdKor, [
-            "BrojZavrsenihRecenzija"=>$recenzent->BrojZavrsenihRecenzija+1
-        ]);
-        if($citalac!=null){
-            $pisacModel->insert([
-                "IdKor"=>$citalac->IdKor,
-                "PocetakKarijere"=>$time->toDateString()
+        $tekst=$tekstModel->find($idteksta);
+        if($tekst!=null && $tekst->Odobren==0){
+            $citalac=$citalacModel->find($tekst->IdKor);
+            $tekstModel->update($idteksta, ["Odobren"=>1]);
+            $recenzijaModel->save([
+                "IdTeksta"=>$tekst->IdTeksta,
+                "IdKor"=>$this->session->get("korisnik")->IdKor
             ]);
-            $citalacModel->delete($citalac->IdKor);
+            $recenzent=$recenzentModel->find($this->session->get("korisnik")->IdKor);
+            $recenzentModel->update($this->session->get("korisnik")->IdKor, [
+                "BrojZavrsenihRecenzija"=>$recenzent->BrojZavrsenihRecenzija+1
+            ]);
+            if($citalac!=null){
+                $pisacModel->insert([
+                    "IdKor"=>$citalac->IdKor,
+                    "PocetakKarijere"=>$time->toDateString()
+                ]);
+                $citalacModel->delete($citalac->IdKor);
+            }
         }
         $db->transComplete();
-        return redirect()->to(site_url($this->getController()."/recenziranje"));
     }
     
     public function odbaci($idteksta){
+        $db=db_connect();
         $tekstModel=new TekstModel();
+        $db->transStart();
         $tekst=$tekstModel->find($idteksta);
-        $name=$tekst->Tekst;
-        $filepath=FCPATH."/texts/".$name;
-        unlink($filepath);
-        $tekstModel->delete($idteksta);
-        return redirect()->to(site_url($this->getController()."/recenziranje"));
+        if($tekst!=null && $tekst->Odobren==0){
+            $name=$tekst->Tekst;
+            $filepath=FCPATH."texts\\".$name;
+            unlink($filepath);
+            $tekstModel->delete($idteksta);
+        }
+        $db->transComplete();
+    }
+    
+    public function osveziTekstove(){
+        $tekstModel=new TekstModel();
+        $korisnikModel=new KorisnikModel();
+        $oblastModel=new OblastModel();
+        $tekstovi=$tekstModel->sviZaRecenziranje($this->session->get("korisnik")->IdKor);
+        $korisnici=$korisnikModel->korisniciZaTekstove($tekstovi);
+        $oblasti=$oblastModel->oblastiZaTekstove($tekstovi);
+        $i=0;
+        foreach($tekstovi as $tekst){
+            echo "
+            <tr>
+                <td><a href='../texts/$tekst->Tekst'>$tekst->Naziv</a></td>
+                <td><a class='pointer-link korisnik' data-id='{$korisnici[$tekst->IdTeksta]->IdKor}'>{$korisnici[$tekst->IdTeksta]->username}</a></td>
+                <td>{$oblasti[$tekst->IdTeksta]->Naziv}</td>
+                <td>{$tekst->Datum} {$tekst->Vreme}</td>
+                <td><button type='button' class='btn btn-sm btn-success odobri' data-index={$i}>Odobri</button></td>
+                <td><button type='button' class='btn btn-sm btn-danger odbaci' data-index={$i}>Odbaci</button></td>
+            </tr>
+            <script>parametri[{$i}]={$tekst->IdTeksta};</script>";
+            $i++;
+        }
     }
 }

@@ -19,7 +19,6 @@ class Gost extends BaseController {
         $data = [];
         $data['akcija'] = 'prijava';
         $data['poruka']=$this->session->getFlashdata('poruka');
-        $data['boja']=$this->session->getFlashdata('boja');
         $this->prikaz('prijavljivanje', $data);
     }
     
@@ -46,11 +45,10 @@ class Gost extends BaseController {
         return redirect()->to(site_url($status));
     }
 
-    public function registrujSe($poruka = null) {
+    public function registrujSe() {
         $data = [];
         $data['akcija'] = 'registracija';
         $data['poruka'] = $this->session->getFlashdata('poruka');
-        $data['boja'] = $this->session->getFlashdata('boja');
         $time=new Time("now", "Europe/Belgrade");
         $data['godina']=$time->getYear();
         $this->prikaz('registracija', $data);

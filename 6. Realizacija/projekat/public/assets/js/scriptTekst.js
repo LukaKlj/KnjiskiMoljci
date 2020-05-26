@@ -14,7 +14,7 @@ $(document).ready(function(){
                 ocena: ocena
             },
             success:function(response){
-                $(".poruka").css("color:white");
+                $(".poruka").css("color", "white");
                 $(".poruka").html(response);
                 setTimeout(sakrijPoruku, 5000);
             }
@@ -30,7 +30,7 @@ $(document).ready(function(){
                 komentar: komentar
             },
             success: function(){
-                $("#kom").attr('value', '');
+                $("#kom").val("");
                 proveriKomentare();
             }
         });   
@@ -47,6 +47,19 @@ $(document).ready(function(){
     }
     
     setInterval(proveriKomentare, 5000);
+    
+    $(window).on('beforeunload', function(){
+        var strana=$("#strana").val();
+        $.ajax({
+            type: 'get',
+            url: baseURL+"/zapamtiStranu/"+parametar,
+            data: {
+                strana: strana
+            }
+        });
+    });
+    
+    
 });
     
     

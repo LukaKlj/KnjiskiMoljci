@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script> var baseURL="<?php echo site_url($controller);?>"; </script>
     <script src="<?php echo site_url("/assets/js/script.js"); ?>"></script> 
 </head>
 <body class="texture">
@@ -51,7 +52,7 @@
                     echo '<li class="nav-item ';
                     if(isset($akcija) && $akcija=="slanjeZahteva") echo 'active';
                     echo '">
-                        <a class="nav-link" href="'.site_url($controller."/slanjeZahteva").'">Postani recenzent</a>
+                        <a class="nav-link pointer-link" id="slanje">Postani recenzent</a>
                     </li>';
                 }
                 ?>
@@ -69,7 +70,7 @@
         <span class="navbar-text">
             <div>
                 Korisnik:
-                <a href="<?php echo site_url($controller."/pregledTekstova/{$korisnik->IdKor}");?>"><?php echo $korisnik->username;?></a>
+                <a class="pointer-link korisnik" data-id="<?php echo $korisnik->IdKor?>"><?php echo $korisnik->username;?></a>
             </div>
             Status: <?php echo $status?>
         </span>

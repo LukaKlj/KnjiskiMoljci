@@ -24,7 +24,7 @@ class TekstModel extends Model{
     }
     
     public function tekstoviKorisnika($idkor){
-        return $this->where("IdKor", $idkor)->findAll();
+        return $this->where("IdKor", $idkor)->where("Odobren", 1)->findAll();
     }
 }
 
