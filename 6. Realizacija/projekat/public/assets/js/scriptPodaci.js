@@ -6,7 +6,15 @@ $(document).ready(function(){
         $(".poruka").html("");
     }
     
-    $("#sacuvaj").click(function(){
+    $(document).on('keypress', function(e){
+        if(e.which==13){
+            promeniPodatke();
+        }
+    });
+    
+    $("#sacuvaj").click(promeniPodatke);
+    
+    function promeniPodatke(){
         var ime=$("#ime").val();
         var prezime=$("#prezime").val();
         var email=$("#email").val();
@@ -35,6 +43,5 @@ $(document).ready(function(){
                 setTimeout(sakrijPoruku, 5000);
             }
         });
-    });
-    
+    }
 });

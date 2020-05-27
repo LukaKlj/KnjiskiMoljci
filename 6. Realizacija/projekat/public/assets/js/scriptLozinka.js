@@ -6,7 +6,15 @@ $(document).ready(function(){
         $(".poruka").html("");
     }
     
-    $("#promeni").click(function(){
+    $(document).on('keypress', function(e){
+        if(e.which==13){
+            promeniLozinku();
+        }
+    });
+    
+    $("#promeni").click(promeniLozinku);
+    
+    function promeniLozinku(){
         var stara=$("#stara").val();
         var staraPonovo=$("#staraPonovo").val();
         var nova=$("#nova").val();
@@ -28,6 +36,5 @@ $(document).ready(function(){
                 setTimeout(sakrijPoruku, 5000);
             }
         });
-    });
-    
+    }
 });

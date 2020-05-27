@@ -12,6 +12,7 @@ $(document).ready(function(){
             url: baseURL+"/mozeLiPoslati",
             success: function(response){
                 if(response!=""){
+                    $(".poruka").css("color", "red");
                     $(".poruka").html(response);
                     setTimeout(sakrijPoruku, 5000);
                 }
@@ -31,6 +32,7 @@ $(document).ready(function(){
             url: baseURL+"/citalac/"+idkor,
             success: function(response){
                 if(response!=""){
+                    $(".poruka").css("color", "red");
                     $(".poruka").html(response);
                     setTimeout(sakrijPoruku, 5000);
                 }

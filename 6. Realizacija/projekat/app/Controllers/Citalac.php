@@ -61,9 +61,10 @@ class Citalac extends Korisnik{
             'GodinaIsteka'=>$this->request->getVar('godina'),
             'CVV'=>$this->request->getVar('cvv')
         ]);
+        $korisnik=$korisnikModel->find($this->session->get('korisnik')->IdKor);
         $db->transComplete();
+        $this->session->set('korisnik', $korisnik);
         echo "Uspešno promenjeni podaci";
-        return;
     }
 
     protected function getStatus() {

@@ -6,7 +6,15 @@ $(document).ready(function(){
         $(".poruka").html("");
     }
     
-    $("#posalji").click(function(){
+    $("#posalji").click(slanje);
+    
+    $(document).on('keypress', function(e){
+        if(e.which==13){
+            slanje();
+        }
+    });
+    
+    function slanje(){
         var oblast=$("#oblast").val();
         $.ajax({
             type: 'get',
@@ -25,7 +33,7 @@ $(document).ready(function(){
                 setTimeout(sakrijPoruku, 5000);
             }
         });
-    });
+    }
     
 });
 

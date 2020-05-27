@@ -99,11 +99,16 @@ abstract class Korisnik extends BaseController{
             return;
         }
         $korisnikModel=new KorisnikModel();
+        $db=db_connect();
+        $db->transStart();
         $korisnikModel->update($this->session->get("korisnik")->IdKor,[
             'Ime'=>$this->request->getVar('ime'),
             'Prezime'=>$this->request->getVar('prezime'),
             'email'=>$this->request->getVar('email')
         ]);
+        $korisnik=$korisnikModel->find($this->session->get('korisnik')->IdKor);
+        $db->transComplete();
+        $this->session->set('korisnik', $korisnik);
         echo "Uspešno promenjeni podaci";
     }
     
@@ -130,11 +135,15 @@ abstract class Korisnik extends BaseController{
             echo "Nova lozinka se mora sastojati od bar 8 karaktera";
             return;
         }
+        $db=db_connect();
+        $db->transStart();
         $korisnikModel->update($this->session->get('korisnik')->IdKor, [
             'password'=>$this->request->getVar('nova')
         ]);
+        $korisnik=$korisnikModel->find($this->session->get('korisnik')->IdKor);
+        $db->transComplete();
+        $this->session->set('korisnik', $korisnik);
         echo "Uspešno promenjena lozinka";
-        return;
     }
     
     public function citalac($idkor){
