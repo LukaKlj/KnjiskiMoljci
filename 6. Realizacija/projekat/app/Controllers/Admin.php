@@ -8,21 +8,30 @@ use App\Models\RecenzijaModel;
 use App\Models\OcenaModel;
 use CodeIgniter\I18n\Time;
 
+/*Admin kontroler
+ * sluzi za mogucnosti svojstvene administratoru
+ * Autor: Marija Miletic
+ */
+
 class Admin extends Korisnik{
+    //Override
     protected function getController() {
         return "Admin";
     }
 
+    //Override
     protected function getStatus() {
         return "Administrator";
     }
     
+    //prikazuje sve oblasti
     public function zahtevi(){
         $oblastModel=new OblastModel();
         $oblasti=$oblastModel->findAll();
         $this->prikaz("zahtevi", ["akcija"=>"zahtevi", "oblasti"=>$oblasti]);
     }
     
+    //prikazuje zahteve za izabranu oblast
     public function pregledZahteva($idobl){
         $oblastModel=new OblastModel();
         $zahtevModel=new ZahtevModel();
@@ -38,6 +47,7 @@ class Admin extends Korisnik{
         $this->prikaz("zahtevi2", ["akcija"=>"zahtevi", "oblast"=>$oblast, 'prosecneOcene'=>$prosecneOcene, 'poruka'=>$poruka]);
     }
     
+    //vraca recenzenta u status pisca, poziva se AJAXom
     public function vrati($idobl, $idkor){
         $db=db_connect();
         $recenzentModel=new RecenzentModel();
@@ -62,6 +72,7 @@ class Admin extends Korisnik{
         $db->transComplete();
     }
     
+    //odobrava zahtev i pisac postaje recenzent, poziva se AJAXom
     public function odobri($idobl, $idkor){
         $db=db_connect();
         $zahtevModel=new ZahtevModel();
@@ -93,6 +104,7 @@ class Admin extends Korisnik{
         $db->transComplete();
     }
     
+    //odbacuje zahtev pisca da postane recenzent, poziva se AJAXom
     public function odbaci($idobl, $idkor) {
         $db=db_connect();
         $zahtevModel=new ZahtevModel();
@@ -101,6 +113,7 @@ class Admin extends Korisnik{
         $db->transComplete();
     }
     
+    //osvezava prikaz zahteva, poziva se periodicno, poziva se AJAXom
     public function osveziZahteve($idobl){
         $zahtevModel=new ZahtevModel();
         $pisacModel=new PisacModel();

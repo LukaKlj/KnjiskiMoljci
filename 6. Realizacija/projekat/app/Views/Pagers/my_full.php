@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var \CodeIgniter\Pager\PagerRenderer $pager
  */

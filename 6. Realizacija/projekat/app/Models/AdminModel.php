@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+/*Model za tabelu Administrator*/
+
 class AdminModel extends Model{
     protected $table      = 'administrator';
     protected $primaryKey = 'IdKor';

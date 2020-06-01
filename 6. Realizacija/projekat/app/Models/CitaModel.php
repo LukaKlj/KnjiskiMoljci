@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+/*Model za tabelu Cita*/
+
 class CitaModel extends Model{
     protected $table      = 'cita';
     protected $primaryKey = 'IdTeksta, IdKor';

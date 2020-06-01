@@ -5,6 +5,7 @@ $(document).ready(function(){
         $(".poruka").html("");
     }
     
+    //poziva php metodu za ocenjivanje
     $("#potvrdiOcenu").click(function(){
         var ocena=$("#ocena").val();
         $.ajax({
@@ -21,6 +22,7 @@ $(document).ready(function(){
         });   
     });
     
+    //poziva php metodu za komentarisanje
     $("#komentarisi").click(function(){
         var komentar=$("#kom").val();
         $.ajax({
@@ -36,6 +38,7 @@ $(document).ready(function(){
         });   
     });
     
+    //poziva php metodu za osvezavanje prikaza komentara
     function proveriKomentare(){
         $.ajax({
             type: "get",
@@ -49,6 +52,7 @@ $(document).ready(function(){
     
     setInterval(proveriKomentare, 5000);
     
+    //poziva metodu za pamcenje strane
     $(window).on('beforeunload', function(){
         var strana=$("#strana").val();
         $.ajax({

@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+/*Model za tabelu Citalac*/
+
 class CitalacModel extends Model{
     protected $table      = 'citalac';
     protected $primaryKey = 'IdKor';

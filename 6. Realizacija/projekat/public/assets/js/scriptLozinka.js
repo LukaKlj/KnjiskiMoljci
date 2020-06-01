@@ -14,6 +14,7 @@ $(document).ready(function(){
     
     $("#promeni").click(promeniLozinku);
     
+    //poziva php metodu za promenu lozinke
     function promeniLozinku(){
         var stara=$("#stara").val();
         var staraPonovo=$("#staraPonovo").val();

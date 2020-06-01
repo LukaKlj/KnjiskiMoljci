@@ -6,6 +6,7 @@ $(document).ready(function(){
         $(".poruka").html("");
     }
     
+    //poziva php metodu za objavu teksta
     $("form").submit(function(evt){	 
         evt.preventDefault();
         var formData = new FormData($(this)[0]);

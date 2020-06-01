@@ -8,7 +8,14 @@ use App\Models\OcenaModel;
 use App\Models\CitaModel;
 use CodeIgniter\I18n\Time;
 
+/*Korisnik kontroler
+ * sluzi za sve operacije koje mogu da obavljaju svi korisnici
+ * iz nje se izvode klase ostalih specijalnih tipova korisnika
+ * Autori: Marija Miletic, Filip Lazovic, Luka Kljajic
+ */
+
 abstract class Korisnik extends BaseController{
+    //sluzi za enkapsuliranje pravilnog pozivanja view-ova
     protected function prikaz($name, $data){
         $data["status"]=$this->getStatus();
         $data["controller"]=$this->getController();
@@ -18,6 +25,7 @@ abstract class Korisnik extends BaseController{
         echo view('sabloni/footer');
     }
     
+    //podrazumevana strana, preko nje se vrsi pretraga
     public function index(){
         $tekstModel=new TekstModel();
         $korisnikModel=new KorisnikModel();
@@ -47,6 +55,7 @@ abstract class Korisnik extends BaseController{
             "prosecneOcene"=>$prosecneOcene, "oblasti"=>$oblasti, "broj"=>$broj]);
     }
     
+    //prikazuje formu za objavu teksta
     public function objavaTeksta($poruka=null){
         $oblastModel=new OblastModel();
         $oblasti=$oblastModel->findAll();
@@ -54,6 +63,7 @@ abstract class Korisnik extends BaseController{
         $this->prikaz("objavaTeksta", ["akcija"=>"objava", "oblasti"=>$oblasti, "poruka"=>$poruka]);
     }
     
+    //logika objavljivanja novog teksta, poziva se AJAXom
     public function noviTekst(){
         if(!$this->validate(["naslov"=>"required"])){
             echo json_encode(array("poruka"=>"Izaberite naslov", "boja"=>"crvena"));
@@ -84,11 +94,13 @@ abstract class Korisnik extends BaseController{
         echo json_encode(array("poruka"=>"Uspešno objavljen tekst", "boja"=>"bela"));
     }
     
+    // prikazuje stranu za promenu podataka
     public function promenaPodataka(){
         $poruka=$this->session->getFlashdata("poruka");
         $this->prikaz("promenaPodatakaOstali", ["akcija"=>"podaci", "poruka"=>$poruka]);
     }
     
+    //logika za promenu podataka, poziva se AJAXom
     public function noviPodaci() {
         if(!$this->validate(['ime'=>'required', 'prezime'=>'required', 'email'=>'required'])){
             echo "Sva polja moraju biti popunjena";
@@ -112,11 +124,13 @@ abstract class Korisnik extends BaseController{
         echo "Uspešno promenjeni podaci";
     }
     
+    //prikazuje stranu za promenu lozinke
     public function promenaLozinke(){
         $poruka=$this->session->getFlashdata("poruka");
         $this->prikaz("promenaLozinke", ["akcija"=>"lozinka", "poruka"=>$poruka]);
     }
     
+    //logika promene lozinke, poziva se AJAXom
     public function novaLozinka(){
         $korisnikModel=new KorisnikModel();
         if(!$this->validate(['stara'=>'required', 'staraPonovo'=>'required', 'nova'=>'required'])){
@@ -146,6 +160,7 @@ abstract class Korisnik extends BaseController{
         echo "Uspešno promenjena lozinka";
     }
     
+    //proverava da li je zadati korisnik u statusu citaoca, poziva se AJAXom
     public function citalac($idkor){
         $korisnikModel=new KorisnikModel();
         $statusKorisnika=$korisnikModel->dohvatiStatus($idkor);
@@ -154,6 +169,7 @@ abstract class Korisnik extends BaseController{
         }
     }
     
+    //prikazuje sve tekstove nekog korisnika
     public function pregledTekstova($idkor){
         $korisnikModel=new KorisnikModel();
         $tekstModel=new TekstModel();
@@ -197,11 +213,13 @@ abstract class Korisnik extends BaseController{
             'ukupnaProsecnaOcena'=>$ukupnaProsecnaOcena, 'prosecneOcene'=>$prosecneOcene, "poruka"=>$poruka]);
     }
     
+    //odjavljuje se
     public function odjava(){
         $this->session->destroy();
         return redirect()->to('/');
     }
     
+    //prikazuje stranicu za citanje teksta
     public function citanjeTeksta($idteksta){
         $tekstModel=new TekstModel();
         $komentarModel=new KomentarModel();
@@ -221,7 +239,7 @@ abstract class Korisnik extends BaseController{
             "korisnici"=>$korisnici, "ocena"=>$ocena, "autorTeksta"=>$autorTeksta, "strana"=>$strana]);
     }
     
-    //poziva se AJAXom
+    //ocenjuje tekst, poziva se AJAXom
     public function oceni($idteksta){
         $ocenaModel=new OcenaModel();
         $korisnikModel=new KorisnikModel();
@@ -252,7 +270,7 @@ abstract class Korisnik extends BaseController{
         echo "Uspešno zabeležena ocena";
     }
     
-    //poziva se AJAXom
+    //komentarise tekst, poziva se AJAXom
     public function komentarisi($idteksta){
         $komentarModel=new KomentarModel();
         $time=new Time('now', 'Europe/Belgrade');
@@ -265,7 +283,7 @@ abstract class Korisnik extends BaseController{
         ]);
     }
     
-    //poziva se AJAXom
+    //osvezava prikaz komentara, poziva se AJAXom
     public function osveziKomentare($idteksta){
         $komentarModel=new KomentarModel();
         $korisnikModel=new KorisnikModel();
@@ -280,6 +298,7 @@ abstract class Korisnik extends BaseController{
         }
     }
     
+    //poziva se AJAXom u trenutku kada korisnik zavrsava citanje teksta i pamti stranu koju je odabrao da bude zapamcena
     public function zapamtiStranu($idteksta){
         $citaModel=new CitaModel();
         if($this->request->getVar('strana')==0){
@@ -300,7 +319,9 @@ abstract class Korisnik extends BaseController{
         }
     }
     
+    //Vraca string koji treba biti ispisan kao status korisnik
     abstract protected function getStatus();
+    //vraca ime kontrolera
     abstract protected function getController();
 }
 

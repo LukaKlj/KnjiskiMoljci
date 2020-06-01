@@ -8,6 +8,7 @@ $(document).ready(function(){
     
     $(".vrati").click(vrati);
     
+    //poziv aphp metodu za vracanje recenzenta u status pisca
     function vrati(){
         var index=$(this).data("index");
         var parametar2=parametri2[index];
@@ -22,6 +23,7 @@ $(document).ready(function(){
     
     $(".odobri").click(odobri);
     
+    //poziva php metodu za odobravanje zahteva za unapredjenje u status recenzenta
     function odobri(){
         var index=$(this).data("index");
         var parametar2=parametri2[index];
@@ -39,6 +41,7 @@ $(document).ready(function(){
     
     $(".odbaci").click(odbaci);
     
+    //poziva php metodu za odbacivanje zahteva za unapredjenje u status recenzenta
     function odbaci(){
         var index=$(this).data("index");
         var parametar2=parametri2[index];
@@ -51,6 +54,7 @@ $(document).ready(function(){
         });
     }
     
+    //poziva php metodu za osvezavanje zahteva za unapredjenje u status recenzenta
     function proveriZahteve(){
         $.ajax({
             type: 'get',

@@ -7,7 +7,12 @@ use \App\Models\RecenzentModel;
 use \App\Models\AdministatorModel;
 use CodeIgniter\I18n\Time;
 
+/*  Gost kontroler
+    klasa za logovanje i registrovanje
+    Autor:Filip Lazovic */
+
 class Gost extends BaseController {
+    //sluzi da prikaze view-ove
     protected function prikaz($page, $data) {
         $data['controller'] = 'Gost';
         echo view('sabloni/gostHeader', $data);
@@ -15,6 +20,7 @@ class Gost extends BaseController {
         echo view('sabloni/footer');
     }
     
+    //podrazumevana metoda Gost kontrolera, prikazuje se forma za logovanje
     public function index() {
         $data = [];
         $data['akcija'] = 'prijava';
@@ -22,6 +28,7 @@ class Gost extends BaseController {
         $this->prikaz('prijavljivanje', $data);
     }
     
+    //sadrzi logiku logovanja
     public function prijava() {
         if(!$this->validate(['korime'=>'required', 'sifra'=>'required'])){
             $this->session->setFlashdata('poruka', 'Sva polja moraju biti popunjena');
@@ -45,6 +52,7 @@ class Gost extends BaseController {
         return redirect()->to(site_url($status));
     }
 
+    //prikazuje formu za registrovanje
     public function registrujSe() {
         $data = [];
         $data['akcija'] = 'registracija';
@@ -54,6 +62,7 @@ class Gost extends BaseController {
         $this->prikaz('registracija', $data);
     }
 
+    //sadrzi logiku registrovanja
     public function registracija() {
         $db= db_connect();
         $korModel = new KorisnikModel();

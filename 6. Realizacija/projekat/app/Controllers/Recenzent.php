@@ -9,15 +9,23 @@ use App\Models\RecenzentModel;
 use App\Models\PisacModel;
 use CodeIgniter\I18n\Time;
 
+/*Recenzent kontroler
+ * sluzi za mogucnosti svojstvene recenzentu
+ * Autor: Luka Kljajic
+ */
+
 class Recenzent extends Korisnik{
+    //Override
     protected function getController() {
         return "Recenzent";
     }
 
+    //Override
     protected function getStatus() {
         return "Recenzent";
     }
     
+    //prikazuje sve neodobrene tekstove iz oblasti za koju je prijavljeni recenzent zaduzen sem tekstova tog recenzenta
     public function recenziranje(){
         $tekstModel=new TekstModel();
         $korisnikModel=new KorisnikModel();
@@ -30,6 +38,7 @@ class Recenzent extends Korisnik{
             "poruka"=>$poruka]);
     }
     
+    //odobrava zadati tekst, poziva se AJAXom
     public function odobri($idteksta){
         $db=db_connect();
         $tekstModel=new TekstModel();
@@ -62,6 +71,7 @@ class Recenzent extends Korisnik{
         $db->transComplete();
     }
     
+    //odbacuje zadati tekst. poziva se AJAXom
     public function odbaci($idteksta){
         $db=db_connect();
         $tekstModel=new TekstModel();
@@ -76,6 +86,7 @@ class Recenzent extends Korisnik{
         $db->transComplete();
     }
     
+    //osvezava stranicu sa tekstovima na neki vremenski period, poziva se AJAXom
     public function osveziTekstove(){
         $tekstModel=new TekstModel();
         $korisnikModel=new KorisnikModel();

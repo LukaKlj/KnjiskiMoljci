@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+/*Model za tabelu Tekst*/
+
 class TekstModel extends Model{
     protected $table      = 'tekst';
     protected $primaryKey = 'IdTeksta';
@@ -10,12 +12,14 @@ class TekstModel extends Model{
 
     protected $allowedFields = ['Naziv', 'Odobren', 'Tekst', 'IdKor', 'IdObl', 'Datum', 'Vreme'];
     
+    //u tabeli tekst pronalazi najveci id
     public function najveciID(){
         $row=$this->selectMax("IdTeksta", "maxid")->get()->getRow();
         $maxId=$row->maxid;
         return $maxId;
     }
     
+    //prima id recenzenta koji je ulogovan i vraca niz tekstova koje on moze da recenzira
     public function sviZaRecenziranje($idkor){
         $recenzentModel=new RecenzentModel();
         $idobl=$recenzentModel->find($idkor)->IdObl;
@@ -23,6 +27,7 @@ class TekstModel extends Model{
         return $tekstovi;
     }
     
+    //vraca sve odobrene tekstove odredjenog korisnika
     public function tekstoviKorisnika($idkor){
         return $this->where("IdKor", $idkor)->where("Odobren", 1)->findAll();
     }

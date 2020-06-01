@@ -8,6 +8,7 @@ $(document).ready(function(){
     
     $(".odobri").click(odobri);
     
+    //poziva php metodu za odobravanje teksta
     function odobri(){
         var index=$(this).data("index");
         var parametar=parametri[index];
@@ -22,6 +23,7 @@ $(document).ready(function(){
     
     $(".odbaci").click(odbaci);
     
+    //poziva php metodu za odbacivanje teksta
     function odbaci(){
         var index=$(this).data("index");
         var parametar=parametri[index];
@@ -38,6 +40,7 @@ $(document).ready(function(){
         });
     }
     
+    //poziva php metodu za osvezavanje tekstova
     function proveriTekstove(){
         $.ajax({
             type: 'get',

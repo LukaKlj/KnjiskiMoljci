@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+/*Model za tabelu Ocena*/
+
 class OcenaModel extends Model{
     protected $table      = 'ocena';
     protected $primaryKey = 'IdKor, IdTeksta';
@@ -10,6 +12,7 @@ class OcenaModel extends Model{
 
     protected $allowedFields = ['IdKor', 'IdTeksta', 'Ocena'];
     
+    //vraca niz koji sadrzi informacije o korisnicima i njihovim sevukupnim prosecnim ocenama i to sortiran po prosecnim ocenama
     public function prosecneOceneKorisnika($pisci=null, $recenzenti=null, $admini=null){
         $korisnikModel=new KorisnikModel();
         $tekstModel=new TekstModel();
@@ -70,6 +73,7 @@ class OcenaModel extends Model{
         return $sortiraneProsecneOcene;
     }
     
+    //sluzi za sortiranje po prosecnim ocenama
     private function quickSort($arr){
         if(count($arr) <= 1){
             return $arr;
@@ -95,6 +99,7 @@ class OcenaModel extends Model{
         }
     }
     
+    //prima niz tekstova i vraca niz u kojem su kljucevi IdTeksta a vrednosti njihove proscene ocene
     public function prosecneOcene($tekstovi){
         $prosecneOcene=[];
         foreach($tekstovi as $tekst){

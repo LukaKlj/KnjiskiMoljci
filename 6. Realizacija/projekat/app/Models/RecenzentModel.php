@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+/*Model za tabelu Recenzent*/
+
 class RecenzentModel extends Model{
     protected $table      = 'recenzent';
     protected $primaryKey = 'IdKor';

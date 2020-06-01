@@ -4,11 +4,18 @@ use App\Models\KorisnikModel;
 use App\Models\CitalacModel;
 use CodeIgniter\I18n\Time;
 
+/*Citalac kontroler
+ * koristi se za mogucnosti svojstvene samo citaocu
+ * Autor: Marija Miletic
+ */
+
 class Citalac extends Korisnik{
+    //Override
     protected function getController() {
         return "Citalac";
     }
     
+    //prikazuje stranu za promenu podataka, citalac ima vise podataka i zbog toga se radi override metode iz klase korisnik
     public function promenaPodataka(){
         $citalacModel=new CitalacModel();
         $citalac=$citalacModel->find($this->session->get('korisnik')->IdKor);
@@ -19,6 +26,7 @@ class Citalac extends Korisnik{
             "godina"=>$godina, "citalac"=>$citalac]);
     }
     
+    //logika promene podataka za citaoce, poziva se AJAXom
     public function noviPodaci() {
         $db=db_connect();
         if(!$this->validate(['ime'=>'required', 'prezime'=>'required', 'email'=>'required',
@@ -67,6 +75,7 @@ class Citalac extends Korisnik{
         echo "Uspešno promenjeni podaci";
     }
 
+    //Override
     protected function getStatus() {
         return "Čitalac";
     }

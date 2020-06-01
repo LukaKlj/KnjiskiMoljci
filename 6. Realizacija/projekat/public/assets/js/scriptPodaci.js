@@ -14,6 +14,7 @@ $(document).ready(function(){
     
     $("#sacuvaj").click(promeniPodatke);
     
+    //poziva php metodu za promenu podataka
     function promeniPodatke(){
         var ime=$("#ime").val();
         var prezime=$("#prezime").val();

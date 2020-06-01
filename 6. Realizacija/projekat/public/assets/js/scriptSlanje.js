@@ -14,6 +14,7 @@ $(document).ready(function(){
         }
     });
     
+    //poziva php metodu za pravljenje novog zahteva
     function slanje(){
         var oblast=$("#oblast").val();
         $.ajax({
