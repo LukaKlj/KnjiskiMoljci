@@ -44,7 +44,7 @@ class Citalac extends Korisnik{
             return;
         }
         if(!$this->validate(['cvv'=>'regex_match[/^[0-9]{3,4}$/]'])){
-            $this->session->setFlashdata("poruka", "Loš format CVV koda");
+            echo "Loš format CVV koda";
             return;
         }
         $time=new Time("now", "Europe/Belgrade");
